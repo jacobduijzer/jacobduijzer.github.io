@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>https://duijzer.com</id>
+  <title>Jacobs Weblog</title>
+  <updated>2021-06-08T12:25:13.962528+00:00</updated>
+  <link href="https://duijzer.com"/>
+  <link href="https://duijzer.com/content/blog/atom.xml" rel="self"/>
+  <generator uri="https://ablog.readthedocs.org/" version="0.10.19">ABlog</generator>
+</feed>
