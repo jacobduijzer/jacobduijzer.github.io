@@ -1,0 +1,565 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Google Places Api &#8212;   documentation</title>
+    
+  <link href="../../../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../../../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+     
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../../blog/atom.xml"
+  title="Jacobs Weblog"
+/>
+ 
+<style type="text/css">
+  ul.ablog-archive {
+    list-style: none;
+    overflow: auto;
+    margin-left: 0px;
+  }
+  ul.ablog-archive li {
+    float: left;
+    margin-right: 5px;
+    font-size: 80%;
+  }
+  ul.postlist a {
+    font-style: italic;
+  }
+  ul.postlist-style-disc {
+    list-style-type: disc;
+  }
+  ul.postlist-style-none {
+    list-style-type: none;
+  }
+  ul.postlist-style-circle {
+    list-style-type: circle;
+  }
+</style>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+<a class="navbar-brand" href="../../../../index.html">
+<p class="title"></p>
+</a>
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../blog.html">
+  Home
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../about.html">
+  About me
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar">
+<div class="name">
+    <a href="/">Jacobs Blog</a>
+</div>
+<div class="focusareas">
+.NET | TDD | Architecture  
+</div>
+<form class="bd-search d-flex align-items-center" action="/search.html" method="get">
+<i class="icon fas fa-search"></i>
+<input type="search" class="form-control" name="q" id="search-input" placeholder="Search for treasure..." aria-label="Search for treasure..." autocomplete="off">
+</form>
+
+
+
+<div class="focusarea">
+  <a href="../../../blog/tag.html">Tags</a>
+</div>
+<style type="text/css">
+  ul.ablog-cloud {
+    list-style: none;
+    overflow: auto;
+  }
+  ul.ablog-cloud li {
+    float: left;
+    height: 20pt;
+    line-height: 18pt;
+    margin-right: 5px;
+  }
+  ul.ablog-cloud a {
+    text-decoration: none;
+    vertical-align: middle;
+  }
+  li.ablog-cloud-1 {
+    font-size: 80%;
+  }
+  li.ablog-cloud-2 {
+    font-size: 95%;
+  }
+  li.ablog-cloud-3 {
+    font-size: 110%;
+  }
+  li.ablog-cloud-4 {
+    font-size: 125%;
+  }
+  li.ablog-cloud-5 {
+    font-size: 140%;
+  }
+</style>
+<ul class="ablog-cloud">
+   
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/api.html">API</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/arduino.html">Arduino</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/azure-functions.html">Azure Functions</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/cms.html">CMS</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/cqrs.html">CQRS</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/clean-architecture.html">Clean Architecture</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/ddd.html">DDD</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/domain-driven-design.html">Domain Driven Design</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/google-docs.html">Google Docs</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/google-places.html">Google Places</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/google-places-api.html">Google Places API</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/mediatr.html">MediatR</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/mvvmcross.html">MvvmCross</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-2">
+    <a href="../../../blog/tag/plugin.html">Plugin</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-5">
+    <a href="../../../blog/tag/xamarin.html">Xamarin</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-3">
+    <a href="../../../blog/tag/xamarin-forms.html">Xamarin Forms</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/xamarinmac.html">Xamarin.Mac</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/anti-pattern.html">anti-pattern</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/async.html">async</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/bdd.html">bdd</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/behaviour-driven-development.html">behaviour driven development</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/csharp.html">csharp</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/dotnet.html">dotnet</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/gherkin.html">gherkin</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/nuget.html">nuget</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/polly.html">polly</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/specflow.html">specflow</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-2">
+    <a href="../../../blog/tag/validation.html">validation</a>
+  </li>
+   
+</ul>
+
+<div class="focusarea">
+  <a href="../../../blog/archive.html">Archives</a>
+</div>
+<ul>
+   
+  <li>
+    <a href="../../../blog/2021.html">2021 (1)</a>
+  </li>
+    
+  <li>
+    <a href="../../../blog/2019.html">2019 (2)</a>
+  </li>
+    
+  <li>
+    <a href="../../../blog/2018.html">2018 (4)</a>
+  </li>
+   
+</ul>
+<div class="focusareas">
+Social Networks
+</div>
+<div class="whatido">
+<a href="https://github.com/jacobduijzer" target="_blank" class="fab fa-github"></a>&nbsp;&nbsp;
+<a href="https://www.linkedin.com/in/jacobduijzer/" target="_blank" class="fab fa-linkedin-in"></a>&nbsp;&nbsp;
+<a href="https://twitter.com/jacobduijzer" target="_blank" class="fab fa-twitter"></a>
+</div>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Google Places Api
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#before-you-start">
+   Before you start
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#using-the-plugin">
+   Using the plugin
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#using-the-settings-builder">
+     Using the settings builder
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#calling-the-api-for-predictions">
+     Calling the API for predictions
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#getting-details">
+     Getting details
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#samples">
+   Samples
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                 <div class="section" id="google-places-api">
+<h1>Google Places Api<a class="headerlink" href="#google-places-api" title="Permalink to this headline">¶</a></h1>
+<p>The Google Places API can be used to find locations and their details like geolocation, address and other data. It returns a predicted list of locations based on the input string. In this post I will show some details about the plugin I created.</p>
+</div>
+<div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>More than a year ago I created a store locator in a Xamarin.Forms app with the <a class="reference external" href="https://cloud.google.com/maps-platform/places/">Google Places API</a>. I liked the simplicity and configurability of the API and already had the idea of creating a plugin to reuse the code. After releasing the app I never got back into the code and just forgot about it until last week when I had to implement almost exactly the same functionality in a different app.</p>
+<p>I don’t like to repeat myself but because of the tight project schedule I just didn’t have the time to create a public, readable and documented package but I had some time to spend during the weekend so I sat down and created the <a class="reference external" href="https://www.nuget.org/packages/GooglePlacesApi">Google Places Api</a> nuget package.</p>
+</div>
+<div class="section" id="before-you-start">
+<h1>Before you start<a class="headerlink" href="#before-you-start" title="Permalink to this headline">¶</a></h1>
+<p>The Google Places API needs to be enabled in the <a class="reference external" href="https://console.cloud.google.com/">developer console</a> and also needs a valid paying account, although you won’t be charged (depending of the level of details requested). Read more about billing <a class="reference external" href="https://developers.google.com/places/web-service/usage-and-billing">here</a>.</p>
+<p>If your application displays data from the Places API on a page or view that does not also display a Google Map, <a class="reference external" href="https://developers.google.com/places/web-service/policies#terms_of_use_and_privacy_policy_requirements">you must show a Powered by Google logo</a> with that data.</p>
+</div>
+<div class="section" id="using-the-plugin">
+<h1>Using the plugin<a class="headerlink" href="#using-the-plugin" title="Permalink to this headline">¶</a></h1>
+<p>Make sure you have enabled the Google Places Api in the <a class="reference external" href="https://console.cloud.google.com/">developers console</a>. Get an api Key and install the <a class="reference external" href="https://www.nuget.org/packages/GooglePlacesApi">nuget</a> package in your project.</p>
+<div class="section" id="using-the-settings-builder">
+<h2>Using the settings builder<a class="headerlink" href="#using-the-settings-builder" title="Permalink to this headline">¶</a></h2>
+<p>The plugin can be configured with different settings by using the settings builder:</p>
+<div class="highlight-C# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">settings</span> <span class="p">=</span> <span class="n">GoogleApiSettings</span><span class="p">.</span><span class="n">Builder</span>
+                                            <span class="p">.</span><span class="n">WithApiKey</span><span class="p">(</span><span class="s">&quot;api_key&quot;</span><span class="p">)</span>
+                                            <span class="p">.</span><span class="n">WithLanguage</span><span class="p">(</span><span class="s">&quot;nl&quot;</span><span class="p">)</span>
+                                            <span class="p">.</span><span class="n">WithType</span><span class="p">(</span><span class="n">PlaceTypes</span><span class="p">.</span><span class="n">Address</span><span class="p">)</span>
+                                            <span class="p">.</span><span class="n">WithLogger</span><span class="p">(</span><span class="k">new</span> <span class="n">ConsoleLogger</span><span class="p">())</span>
+                                            <span class="p">.</span><span class="n">AddCountry</span><span class="p">(</span><span class="s">&quot;nl&quot;</span><span class="p">)</span>
+                                            <span class="p">.</span><span class="n">Build</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Only the api key is required, all other settings are optional. Detailed information about the parameters is available <span class="xref myst">here</span> but in short:</p>
+<ul class="simple">
+<li><p>Language: two letter iso code. Results are biased to the selected language so setting it might give better results.</p></li>
+<li><p>Type: The types of place results to return. If no type is specified, all types will be returned.</p></li>
+<li><p>Countries: you can add up to 5 countries. Results will be restricted to locations in the provided country.</p></li>
+<li><p>Logger: this is not an API setting. If you want logging of the API calls and results you can implement your own logger or use the provided console logger.</p></li>
+</ul>
+</div>
+<div class="section" id="calling-the-api-for-predictions">
+<h2>Calling the API for predictions<a class="headerlink" href="#calling-the-api-for-predictions" title="Permalink to this headline">¶</a></h2>
+<p>The request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">settings</span> <span class="o">=</span> <span class="n">GoogleApiSettings</span><span class="o">.</span><span class="n">Builder</span><span class="o">.</span><span class="n">WithApiKey</span><span class="p">(</span><span class="s2">&quot;SAMPLE_API_KEY&quot;</span><span class="p">)</span>                                            
+                                            <span class="o">.</span><span class="n">WithType</span><span class="p">(</span><span class="n">PlaceTypes</span><span class="o">.</span><span class="n">GeoCode</span><span class="p">)</span>
+                                            <span class="o">.</span><span class="n">Build</span><span class="p">();</span>
+
+<span class="n">var</span> <span class="n">service</span> <span class="o">=</span> <span class="n">new</span> <span class="n">GooglePlacesApiService</span><span class="p">(</span><span class="n">settings</span><span class="p">);</span>
+<span class="n">var</span> <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">GetPredictionsAsync</span><span class="p">(</span><span class="s2">&quot;new y&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="n">false</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The results:</p>
+<p><span class="xref myst"><img alt="Prediction result" src="../../../../_images/predictionresult.png" /></span></p>
+</div>
+<div class="section" id="getting-details">
+<h2>Getting details<a class="headerlink" href="#getting-details" title="Permalink to this headline">¶</a></h2>
+<p>The information in the returned result is not giving any detailed location information. To get more information about a location another API call is needed.</p>
+<p>The request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">details</span> <span class="o">=</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">GetDetailsAsync</span><span class="p">(</span><span class="s2">&quot;ChIJOwg_06VPwokRYv534QaPC8g&quot;</span><span class="p">)</span>
+                                      <span class="o">.</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="n">false</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The result:</p>
+<p><span class="xref myst"><img alt="Detail result" src="../../../../_images/detailresult.png" /></span></p>
+</div>
+</div>
+<div class="section" id="samples">
+<h1>Samples<a class="headerlink" href="#samples" title="Permalink to this headline">¶</a></h1>
+<p>Please check out the <a class="reference external" href="https://github.com/jacobduijzer/GooglePlacesApi/tree/master/src/samples/Xamarin.Forms">sample</a> Xamarin Forms app, I created a simple view and a more advanced view with throttled search.</p>
+</div>
+
+<div class="section">
+     
+<div class="section">
+  <span style="float: left">
+     
+    <a href="../mvvmcross_with_mediatr/index.html">
+      <i class="fa fa-arrow-circle-left"></i> Using MediatR in an MvvmCross App
+    </a>
+    
+  </span>
+  <span>&nbsp;</span>
+  <span style="float: right">
+     
+    <a href="../xamarin-mac-arduino/index.html">
+      Using an Arduino with Xamarin for Mac <i
+        class="fa fa-arrow-circle-right"
+      ></i
+      >
+    </a>
+    
+  </span>
+</div>
+  
+  <div class="section">
+    <h2>Comments</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      var disqus_shortname = "blog-duijzer-com";
+      var disqus_identifier = "/content/articles/2018/google-places-api/";
+      var disqus_title = "Google Places Api";
+      var disqus_url = "https://duijzer.com/content/articles/2018/google-places-api/";
+
+      (function () {
+        var dsq = document.createElement("script");
+        dsq.type = "text/javascript";
+        dsq.async = true;
+        dsq.src = "//" + disqus_shortname + ".disqus.com/embed.js";
+        (
+          document.getElementsByTagName("head")[0] ||
+          document.getElementsByTagName("body")[0]
+        ).appendChild(dsq);
+      })();
+    </script>
+    <noscript
+      >Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript"
+        >comments powered by Disqus.</a
+      ></noscript
+    >
+    <a href="https://disqus.com" class="dsq-brlink"
+      >comments powered by <span class="logo-disqus">Disqus</span></a
+    >
+  </div>
+  
+</div>
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, Jacob Duijzer.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

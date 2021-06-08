@@ -1,0 +1,761 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Using MediatR in an MvvmCross App &#8212;   documentation</title>
+    
+  <link href="../../../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../../../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+     
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../../blog/atom.xml"
+  title="Jacobs Weblog"
+/>
+ 
+<style type="text/css">
+  ul.ablog-archive {
+    list-style: none;
+    overflow: auto;
+    margin-left: 0px;
+  }
+  ul.ablog-archive li {
+    float: left;
+    margin-right: 5px;
+    font-size: 80%;
+  }
+  ul.postlist a {
+    font-style: italic;
+  }
+  ul.postlist-style-disc {
+    list-style-type: disc;
+  }
+  ul.postlist-style-none {
+    list-style-type: none;
+  }
+  ul.postlist-style-circle {
+    list-style-type: circle;
+  }
+</style>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+<a class="navbar-brand" href="../../../../index.html">
+<p class="title"></p>
+</a>
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../blog.html">
+  Home
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../about.html">
+  About me
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar">
+<div class="name">
+    <a href="/">Jacobs Blog</a>
+</div>
+<div class="focusareas">
+.NET | TDD | Architecture  
+</div>
+<form class="bd-search d-flex align-items-center" action="/search.html" method="get">
+<i class="icon fas fa-search"></i>
+<input type="search" class="form-control" name="q" id="search-input" placeholder="Search for treasure..." aria-label="Search for treasure..." autocomplete="off">
+</form>
+
+
+
+<div class="focusarea">
+  <a href="../../../blog/tag.html">Tags</a>
+</div>
+<style type="text/css">
+  ul.ablog-cloud {
+    list-style: none;
+    overflow: auto;
+  }
+  ul.ablog-cloud li {
+    float: left;
+    height: 20pt;
+    line-height: 18pt;
+    margin-right: 5px;
+  }
+  ul.ablog-cloud a {
+    text-decoration: none;
+    vertical-align: middle;
+  }
+  li.ablog-cloud-1 {
+    font-size: 80%;
+  }
+  li.ablog-cloud-2 {
+    font-size: 95%;
+  }
+  li.ablog-cloud-3 {
+    font-size: 110%;
+  }
+  li.ablog-cloud-4 {
+    font-size: 125%;
+  }
+  li.ablog-cloud-5 {
+    font-size: 140%;
+  }
+</style>
+<ul class="ablog-cloud">
+   
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/api.html">API</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/arduino.html">Arduino</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/azure-functions.html">Azure Functions</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/cms.html">CMS</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/cqrs.html">CQRS</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/clean-architecture.html">Clean Architecture</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/ddd.html">DDD</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/domain-driven-design.html">Domain Driven Design</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/google-docs.html">Google Docs</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/google-places.html">Google Places</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/google-places-api.html">Google Places API</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/mediatr.html">MediatR</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/mvvmcross.html">MvvmCross</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-2">
+    <a href="../../../blog/tag/plugin.html">Plugin</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-5">
+    <a href="../../../blog/tag/xamarin.html">Xamarin</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-3">
+    <a href="../../../blog/tag/xamarin-forms.html">Xamarin Forms</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/xamarinmac.html">Xamarin.Mac</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/anti-pattern.html">anti-pattern</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/async.html">async</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/bdd.html">bdd</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/behaviour-driven-development.html">behaviour driven development</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/csharp.html">csharp</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/dotnet.html">dotnet</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/gherkin.html">gherkin</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/nuget.html">nuget</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/polly.html">polly</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/specflow.html">specflow</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-2">
+    <a href="../../../blog/tag/validation.html">validation</a>
+  </li>
+   
+</ul>
+
+<div class="focusarea">
+  <a href="../../../blog/archive.html">Archives</a>
+</div>
+<ul>
+   
+  <li>
+    <a href="../../../blog/2021.html">2021 (1)</a>
+  </li>
+    
+  <li>
+    <a href="../../../blog/2019.html">2019 (2)</a>
+  </li>
+    
+  <li>
+    <a href="../../../blog/2018.html">2018 (4)</a>
+  </li>
+   
+</ul>
+<div class="focusareas">
+Social Networks
+</div>
+<div class="whatido">
+<a href="https://github.com/jacobduijzer" target="_blank" class="fab fa-github"></a>&nbsp;&nbsp;
+<a href="https://www.linkedin.com/in/jacobduijzer/" target="_blank" class="fab fa-linkedin-in"></a>&nbsp;&nbsp;
+<a href="https://twitter.com/jacobduijzer" target="_blank" class="fab fa-twitter"></a>
+</div>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Using MediatR in an MvvmCross App
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#first-learning">
+   First learning
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#let-s-start">
+   Let’s start
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#viewmodel">
+     ViewModel
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#loginhandler">
+     LoginHandler
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#loginrequest">
+     LoginRequest
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#loginresponse">
+     LoginResponse
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#clean-testable-code">
+   Clean, testable code
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#issues-with-mediatr">
+   Issues with MediatR
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#more-handlers">
+   More handlers
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#onewayhandler">
+     OneWayHandler
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pinghandler">
+     PingHandler
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#finally">
+   Finally
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#links">
+   Links
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                 <div class="section" id="using-mediatr-in-an-mvvmcross-app">
+<h1>Using MediatR in an MvvmCross App<a class="headerlink" href="#using-mediatr-in-an-mvvmcross-app" title="Permalink to this headline">¶</a></h1>
+<p>A while ago I was listening to a podcast from <a class="reference external" href="https://www.dotnetrocks.com/?show=1538">DotNetRocks</a> about <a class="reference external" href="https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html">Clean Architecture</a>. Around the same time I read something about a <a class="reference external" href="https://github.com/ardalis/CleanArchitecture">Clean Architecture template</a> which happens to be from <a class="reference external" href="https://github.com/ardalis">Steve Smith</a>, the same guy talking about it on the DotNetRocks show.</p>
+<!--more-->
+<p>After doing quite some reading about Clean Architecture I created some sample apps to try different patterns and I really liked it! I was lucky as I was just starting a new project from scratch and decided to implement “Clean Architecture”. In this post I will explain how I am using <a class="reference external" href="https://martinfowler.com/bliki/CQRS.html">CQRS</a> (or Command Query Responsibility Segregation). CQRS  one of the many ways to create cleaner architectures and cleaner code. CQRS is one of the many patterns used to create a cleaner architecture. Basically you create a seperation between Commands (alter the state of your application) and Queries (get information from your application).</p>
+<p>I am not going into the details of the patterns. I am planning to write more posts about <a class="reference external" href="https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html">Clean Architecture</a> and how I am using it with Xamarin but feel free and start reading the links at the end of this post to learn more about the theory and the details!</p>
+</div>
+<div class="section" id="first-learning">
+<h1>First learning<a class="headerlink" href="#first-learning" title="Permalink to this headline">¶</a></h1>
+<p>In the beginning of my journey I copied some code from a <a class="reference external" href="https://github.com/stephanhoekstra/clean-architecture">clean architecture sample</a> belonging to a nice <a class="reference external" href="https://medium.com/&#64;stephanhoekstra/clean-architecture-in-net-8eed6c224c50">post</a> about Clean Architecture. These were the (base)classes to create handlers and get response and started to reuse it in different test projects. After copying it for the 3rd time I decided to create a nuget package but just after releasing the first version to nuget I stumbled upon <a class="reference external" href="https://github.com/jbogard/MediatR">MediatR</a>. Basically the same code but with much more features and better implemented.</p>
+</div>
+<div class="section" id="let-s-start">
+<h1>Let’s start<a class="headerlink" href="#let-s-start" title="Permalink to this headline">¶</a></h1>
+<p>Let’s just start with a simple example: a login page where a user needs to enter credentials, which, after being validated, will be send to a web service.</p>
+<div class="section" id="viewmodel">
+<h2>ViewModel<a class="headerlink" href="#viewmodel" title="Permalink to this headline">¶</a></h2>
+<p>The ViewModel has an injected object, IMediator. The Mediator looks into the IoC container for the correct handler and handles messages as you can see in the ‘LoginAsync’ method.</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">class</span> <span class="nc">LoginViewModel</span> <span class="p">:</span> <span class="n">BaseViewModel</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="k">readonly</span> <span class="n">IMediator</span> <span class="n">_mediator</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="nf">LoginViewModel</span><span class="p">(</span><span class="n">IMediator</span> <span class="n">mediator</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_mediator</span> <span class="p">=</span> <span class="n">mediator</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="n">IMvxAsyncCommand</span> <span class="n">LoginCommand</span> <span class="p">=&gt;</span> <span class="k">new</span> <span class="n">MvxAsyncCommand</span><span class="p">(</span><span class="n">LoginAsync</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="n">CanLogin</span><span class="p">);</span>
+
+    <span class="k">private</span> <span class="kt">string</span> <span class="n">_username</span><span class="p">;</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">Username</span>
+    <span class="p">{</span>
+        <span class="k">get</span> <span class="p">=&gt;</span> <span class="n">_username</span><span class="p">;</span>
+        <span class="k">set</span> <span class="p">{</span> <span class="n">SetProperty</span><span class="p">(</span><span class="k">ref</span> <span class="n">_username</span><span class="p">,</span> <span class="k">value</span><span class="p">);</span> <span class="n">RaisePropertyChanged</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="n">CanLogin</span><span class="p">);</span> <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="kt">string</span> <span class="n">_password</span><span class="p">;</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">Password</span>
+    <span class="p">{</span>
+        <span class="k">get</span> <span class="p">=&gt;</span> <span class="n">_password</span><span class="p">;</span>
+        <span class="k">set</span> <span class="p">{</span> <span class="n">SetProperty</span><span class="p">(</span><span class="k">ref</span> <span class="n">_password</span><span class="p">,</span> <span class="k">value</span><span class="p">);</span> <span class="n">RaisePropertyChanged</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="n">CanLogin</span><span class="p">);</span> <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="kt">string</span> <span class="n">_errorMessage</span><span class="p">;</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">ErrorMessage</span>
+    <span class="p">{</span>
+        <span class="k">get</span> <span class="p">=&gt;</span> <span class="n">_errorMessage</span><span class="p">;</span>
+        <span class="k">private</span> <span class="k">set</span> <span class="p">=&gt;</span> <span class="n">SetProperty</span><span class="p">(</span><span class="k">ref</span> <span class="n">_errorMessage</span><span class="p">,</span> <span class="k">value</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="kt">bool</span> <span class="n">CanLogin</span> <span class="p">=&gt;</span> <span class="p">!</span><span class="kt">string</span><span class="p">.</span><span class="n">IsNullOrEmpty</span><span class="p">(</span><span class="n">Username</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="n">Username</span><span class="p">.</span><span class="n">Length</span> <span class="p">&gt;=</span> <span class="m">5</span> <span class="p">&amp;&amp;</span>
+                                   <span class="p">!</span><span class="kt">string</span><span class="p">.</span><span class="n">IsNullOrEmpty</span><span class="p">(</span><span class="n">Password</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="n">Password</span><span class="p">.</span><span class="n">Length</span> <span class="p">&gt;=</span> <span class="m">4</span><span class="p">;</span>
+    
+    <span class="k">private</span> <span class="k">async</span> <span class="n">Task</span> <span class="nf">LoginAsync</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_mediator</span><span class="p">.</span><span class="n">Send</span><span class="p">(</span><span class="n">LoginRequest</span><span class="p">.</span><span class="n">WithCredentials</span><span class="p">(</span><span class="n">Username</span><span class="p">,</span> <span class="n">Password</span><span class="p">))</span>
+                                    <span class="p">.</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">Succes</span><span class="p">)</span>
+            <span class="k">await</span> <span class="n">NavigationService</span><span class="p">.</span><span class="n">Navigate</span><span class="p">&lt;</span><span class="n">StartViewModel</span><span class="p">&gt;()</span>
+                                   <span class="p">.</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+        <span class="k">else</span>
+            <span class="n">ErrorMessage</span> <span class="p">=</span> <span class="n">result</span><span class="p">.</span><span class="n">Message</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loginhandler">
+<h2>LoginHandler<a class="headerlink" href="#loginhandler" title="Permalink to this headline">¶</a></h2>
+<p>The LoginHandler is where the real execution happens. The handler is supposed to be a mediator between the core or the domain and the outside world. In Clean Architecture this is often referred to as a <strong>UseCase</strong>.</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">class</span> <span class="nc">LoginHandler</span> <span class="p">:</span> <span class="n">IRequestHandler</span><span class="p">&lt;</span><span class="n">LoginRequest</span><span class="p">,</span> <span class="n">LoginResponse</span><span class="p">&gt;</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="k">readonly</span> <span class="n">ILoginService</span> <span class="n">_loginService</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="nf">LoginHandler</span><span class="p">(</span><span class="n">ILoginService</span> <span class="n">loginService</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_loginService</span> <span class="p">=</span> <span class="n">loginService</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">LoginResponse</span><span class="p">&gt;</span> <span class="n">Handle</span><span class="p">(</span><span class="n">LoginRequest</span> <span class="n">request</span><span class="p">,</span> <span class="n">CancellationToken</span> <span class="n">cancellationToken</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">try</span>
+        <span class="p">{</span>
+            <span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_loginService</span><span class="p">.</span><span class="n">LoginAsync</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">Username</span><span class="p">,</span> <span class="n">request</span><span class="p">.</span><span class="n">Password</span><span class="p">)</span>
+                                            <span class="p">.</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+
+            <span class="k">return</span> <span class="n">LoginResponse</span><span class="p">.</span><span class="n">WithStatus</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">catch</span> <span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="n">Exception</span> <span class="n">ex</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="n">LoginResponse</span><span class="p">.</span><span class="n">WithStatusAndMessage</span><span class="p">(</span><span class="k">false</span><span class="p">,</span> <span class="n">ex</span><span class="p">.</span><span class="n">Message</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loginrequest">
+<h2>LoginRequest<a class="headerlink" href="#loginrequest" title="Permalink to this headline">¶</a></h2>
+<p>I use the request to send the login credentials to the mediator. A Request could also be an empty object as we will see later on.</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">class</span> <span class="nc">LoginRequest</span> <span class="p">:</span> <span class="n">IRequest</span><span class="p">&lt;</span><span class="n">LoginResponse</span><span class="p">&gt;</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">Username</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">Password</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+    
+    <span class="k">private</span> <span class="nf">LoginRequest</span><span class="p">(</span><span class="kt">string</span> <span class="n">username</span><span class="p">,</span> <span class="kt">string</span> <span class="n">password</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">Username</span> <span class="p">=</span> <span class="n">username</span><span class="p">;</span>
+
+        <span class="n">Password</span> <span class="p">=</span> <span class="n">password</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">static</span> <span class="n">LoginRequest</span> <span class="nf">WithCredentials</span><span class="p">(</span><span class="kt">string</span> <span class="n">username</span><span class="p">,</span> <span class="kt">string</span> <span class="n">password</span><span class="p">)</span>
+    <span class="p">=&gt;</span> <span class="k">new</span> <span class="n">LoginRequest</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loginresponse">
+<h2>LoginResponse<a class="headerlink" href="#loginresponse" title="Permalink to this headline">¶</a></h2>
+<p>Just a response to know if our credentials were correct so we can continue.</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">class</span> <span class="nc">LoginResponse</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">bool</span> <span class="n">Succes</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">Message</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+
+    <span class="k">private</span> <span class="nf">LoginResponse</span><span class="p">(</span><span class="kt">bool</span> <span class="n">success</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">Succes</span> <span class="p">=</span> <span class="n">success</span><span class="p">;</span>
+
+    <span class="k">private</span> <span class="nf">LoginResponse</span><span class="p">(</span><span class="kt">bool</span> <span class="n">success</span><span class="p">,</span> <span class="kt">string</span> <span class="n">message</span><span class="p">)</span> 
+        <span class="p">:</span> <span class="k">this</span><span class="p">(</span><span class="n">success</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">Message</span> <span class="p">=</span> <span class="n">message</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">static</span> <span class="n">LoginResponse</span> <span class="nf">WithStatus</span><span class="p">(</span><span class="kt">bool</span> <span class="n">success</span><span class="p">)</span> 
+    <span class="p">=&gt;</span> <span class="k">new</span> <span class="n">LoginResponse</span><span class="p">(</span><span class="n">success</span><span class="p">);</span>
+
+    <span class="k">public</span> <span class="k">static</span> <span class="n">LoginResponse</span> <span class="nf">WithStatusAndMessage</span><span class="p">(</span><span class="kt">bool</span> <span class="n">success</span><span class="p">,</span> <span class="kt">string</span> <span class="n">message</span><span class="p">)</span> 
+    <span class="p">=&gt;</span> <span class="k">new</span> <span class="n">LoginResponse</span><span class="p">(</span><span class="n">success</span><span class="p">,</span> <span class="n">message</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Please download the <a class="reference external" href="https://github.com/jacobduijzer/MvvmCrossWithMediatR">GitHub sample project</a> to see the views and run the sample!</p>
+</div>
+</div>
+<div class="section" id="clean-testable-code">
+<h1>Clean, testable code<a class="headerlink" href="#clean-testable-code" title="Permalink to this headline">¶</a></h1>
+<p>The view model has just a few lines of code to tie things together, all logic is handled at a deeper level. The handlers are just small classes to handle specific parts of the login (hence the name UseCase). Everything is injected with Interfaces so everything is loosely coupled. This makes it very easy to write unit tests and cover a large part of your app logic. Just have a look at the test project in the <a class="reference external" href="https://github.com/jacobduijzer/MvvmCrossWithMediatR">GitHub sample project</a> to see how much of the code is tested.</p>
+</div>
+<div class="section" id="issues-with-mediatr">
+<h1>Issues with MediatR<a class="headerlink" href="#issues-with-mediatr" title="Permalink to this headline">¶</a></h1>
+<p>I started using MediatR without the actual mediator but by calling the handlers straight in my viewmodels. Although this can be done it needs more lines of code. I really got into trouble when I wanted to implement a command though (a request without a response). By overriding AsyncHandler<T> I lost the possibility to call Handle() myself. Just after looking into the code and the usage of the IMediator / Mediator I discovered the real beauty of MediatR. My code just became even more cleaner!</p>
+<p>But how sad were my first experiences. I almost gave up on it completely. There is some documentation about MediatR, together with some samples and there is some documentation about MvvmCross but I really got into some detailed code issues here.</p>
+<p>I had to dive into the source of Mediatr, MvvmCross and Autofac to get a grasp of what was happening. And although I got it working, I still have to do some more investigating to find out what the real problem is. Anyway, this is how I got it working:</p>
+<p>The ServiceFactory is responsible for resolving the handlers from the IoC container. You create a generic factory so MediatR can work with all kind of IoC containers to resolve handlers. It seems like all containers (e.g. AutoFac, AspNetCore, Ninject, etc) are return an empty array when no object is found but MvvmCross throws an Exception. I wrote about this in the <a class="reference external" href="https://github.com/jacobduijzer/MvvmCrossWithMediatR/blob/master/README.md">README</a> of the sample!</p>
+<p>Anyway, I am using it now and this seems to work:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="n">CreatableTypes</span><span class="p">()</span>
+                <span class="p">.</span><span class="n">EndingWith</span><span class="p">(</span><span class="s">&quot;Handler&quot;</span><span class="p">)</span>
+                <span class="p">.</span><span class="n">AsInterfaces</span><span class="p">()</span>
+                <span class="p">.</span><span class="n">RegisterAsLazySingleton</span><span class="p">();</span>
+                
+<span class="n">Mvx</span><span class="p">.</span><span class="n">LazyConstructAndRegisterSingleton</span><span class="p">&lt;</span><span class="n">IMediator</span><span class="p">,</span> <span class="n">Mediator</span><span class="p">&gt;();</span>
+
+<span class="n">Mvx</span><span class="p">.</span><span class="n">RegisterSingleton</span><span class="p">&lt;</span><span class="n">ServiceFactory</span><span class="p">&gt;((</span><span class="n">Type</span> <span class="n">serviceType</span><span class="p">)</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">resolver</span> <span class="p">=</span> <span class="n">Mvx</span><span class="p">.</span><span class="n">Resolve</span><span class="p">&lt;</span><span class="n">IMvxIoCProvider</span><span class="p">&gt;();</span>
+
+    <span class="k">try</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">resolver</span><span class="p">.</span><span class="n">Resolve</span><span class="p">(</span><span class="n">serviceType</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">catch</span> <span class="p">(</span><span class="n">Exception</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// a &quot;bit&quot; buggy, I know!</span>
+        <span class="k">return</span> <span class="n">Array</span><span class="p">.</span><span class="n">CreateInstance</span><span class="p">(</span><span class="n">serviceType</span><span class="p">.</span><span class="n">GenericTypeArguments</span><span class="p">[</span><span class="m">0</span><span class="p">],</span> <span class="m">0</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>It is a good practice to start testing with .RegisterAsSingleton() instead of Lazy because I got into a lot of vague issues when there are issues with constructing the viewmodels.</p>
+<p>Also, registering types instead of singletons gave me issues, the ServiceFactory wasn’t able to construct my empty array anymore.</p>
+</div>
+<div class="section" id="more-handlers">
+<h1>More handlers<a class="headerlink" href="#more-handlers" title="Permalink to this headline">¶</a></h1>
+<p>Just for the fun of it, let’s add two more handlers, two handlers from the MediatR samples:</p>
+<div class="section" id="onewayhandler">
+<h2>OneWayHandler<a class="headerlink" href="#onewayhandler" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">class</span> <span class="nc">OneWayHandler</span> <span class="p">:</span> <span class="n">AsyncRequestHandler</span><span class="p">&lt;</span><span class="n">OneWay</span><span class="p">&gt;</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nf">OneWayHandler</span><span class="p">()</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+
+    <span class="k">protected</span> <span class="k">override</span> <span class="n">Task</span> <span class="nf">Handle</span><span class="p">(</span><span class="n">OneWay</span> <span class="n">request</span><span class="p">,</span> <span class="n">CancellationToken</span> <span class="n">cancellationToken</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">Diagnostics</span><span class="p">.</span><span class="n">Debug</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">Message</span><span class="p">);</span>
+
+        <span class="k">return</span> <span class="n">Task</span><span class="p">.</span><span class="n">FromResult</span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pinghandler">
+<h2>PingHandler<a class="headerlink" href="#pinghandler" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">public</span> <span class="k">class</span> <span class="nc">PingHandler</span> <span class="p">:</span> <span class="n">IRequestHandler</span><span class="o">&lt;</span><span class="n">Ping</span><span class="p">,</span> <span class="n">Pong</span><span class="o">&gt;</span>
+<span class="p">{</span>
+    <span class="n">public</span> <span class="n">PingHandler</span><span class="p">()</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="k">async</span> <span class="n">Task</span><span class="o">&lt;</span><span class="n">Pong</span><span class="o">&gt;</span> <span class="n">Handle</span><span class="p">(</span><span class="n">Ping</span> <span class="n">request</span><span class="p">,</span> <span class="n">CancellationToken</span> <span class="n">cancellationToken</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">Task</span><span class="o">.</span><span class="n">FromResult</span><span class="p">(</span><span class="n">new</span> <span class="n">Pong</span> <span class="p">{</span> <span class="n">Message</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">Message</span> <span class="o">+</span> <span class="s2">&quot; Pong&quot;</span> <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="finally">
+<h1>Finally<a class="headerlink" href="#finally" title="Permalink to this headline">¶</a></h1>
+<p>There is a lot more that can be done with <a class="reference external" href="https://github.com/jbogard/MediatR">MediatR</a>, much more to tell about <a class="reference external" href="https://martinfowler.com/bliki/CQRS.html">CQRS</a> and t <a class="reference external" href="https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html">Clean Architecture</a> and I am planning to write at least one more post about my experiences with all this with Xamarin but in the meantime check the source on <a class="reference external" href="https://github.com/jacobduijzer/MvvmCrossWithMediatR">GitHub</a>. And don’t forget to tell me if you learned something. Any plans to try it out yourself? Having questions? Add a comment or contact me in the <a class="reference external" href="https://xamarinchat.herokuapp.com/">Xamarin Slack</a>!</p>
+</div>
+<div class="section" id="links">
+<h1>Links<a class="headerlink" href="#links" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/jacobduijzer/MvvmCrossWithMediatR">GitHub sample project</a></p></li>
+<li><p><a class="reference external" href="https://github.com/jbogard/MediatR">MediatR</a></p></li>
+<li><p><a class="reference external" href="https://martinfowler.com/bliki/CQRS.html">CQRS</a></p></li>
+<li><p><a class="reference external" href="https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html">Clean Architecture</a></p></li>
+<li><p><a class="reference external" href="https://medium.com/&#64;stephanhoekstra/clean-architecture-in-net-8eed6c224c50">A Clean Architecture in .NET</a></p></li>
+<li><p><a class="reference external" href="https://www.dotnetrocks.com/?show=1538">DotNetRocks</a></p></li>
+<li><p><a class="reference external" href="https://www.mvvmcross.com">MvvmCross</a></p></li>
+</ul>
+</div>
+
+<div class="section">
+     
+<div class="section">
+  <span style="float: left">
+    
+  </span>
+  <span>&nbsp;</span>
+  <span style="float: right">
+     
+    <a href="../google-places-api/index.html">
+      Google Places Api <i
+        class="fa fa-arrow-circle-right"
+      ></i
+      >
+    </a>
+    
+  </span>
+</div>
+  
+  <div class="section">
+    <h2>Comments</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      var disqus_shortname = "blog-duijzer-com";
+      var disqus_identifier = "/content/articles/2018/mvvmcross_with_mediatr/";
+      var disqus_title = "Using MediatR in an MvvmCross App";
+      var disqus_url = "https://duijzer.com/content/articles/2018/mvvmcross_with_mediatr/";
+
+      (function () {
+        var dsq = document.createElement("script");
+        dsq.type = "text/javascript";
+        dsq.async = true;
+        dsq.src = "//" + disqus_shortname + ".disqus.com/embed.js";
+        (
+          document.getElementsByTagName("head")[0] ||
+          document.getElementsByTagName("body")[0]
+        ).appendChild(dsq);
+      })();
+    </script>
+    <noscript
+      >Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript"
+        >comments powered by Disqus.</a
+      ></noscript
+    >
+    <a href="https://disqus.com" class="dsq-brlink"
+      >comments powered by <span class="logo-disqus">Disqus</span></a
+    >
+  </div>
+  
+</div>
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, Jacob Duijzer.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

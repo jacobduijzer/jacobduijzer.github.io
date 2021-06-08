@@ -2,8 +2,134 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <id>https://duijzer.com</id>
   <title>Jacobs Weblog</title>
-  <updated>2021-06-08T12:25:13.962528+00:00</updated>
+  <updated>2021-06-08T12:33:28.526050+00:00</updated>
   <link href="https://duijzer.com"/>
   <link href="https://duijzer.com/content/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.org/" version="0.10.19">ABlog</generator>
+  <entry>
+    <id>https://duijzer.com/content/articles/2018/mvvmcross_with_mediatr/index.html</id>
+    <title>Using MediatR in an MvvmCross App</title>
+    <updated>2018-08-07T00:00:00+00:00</updated>
+    <author>
+      <name>Jacob Duijzer</name>
+    </author>
+    <content type="html">&lt;p&gt;A while ago I was listening to a podcast from &lt;a class="reference external" href="https://www.dotnetrocks.com/?show=1538"&gt;DotNetRocks&lt;/a&gt; about &lt;a class="reference external" href="https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html"&gt;Clean Architecture&lt;/a&gt;. Around the same time I read something about a &lt;a class="reference external" href="https://github.com/ardalis/CleanArchitecture"&gt;Clean Architecture template&lt;/a&gt; which happens to be from &lt;a class="reference external" href="https://github.com/ardalis"&gt;Steve Smith&lt;/a&gt;, the same guy talking about it on the DotNetRocks show.&lt;/p&gt;
+</content>
+    <link href="https://duijzer.com/content/articles/2018/mvvmcross_with_mediatr/index.html" rel="alternate"/>
+    <summary>A while ago I was listening to a podcast from DotNetRocks about Clean Architecture. Around the same time I read something about a Clean Architecture template which happens to be from Steve Smith, the same guy talking about it on the DotNetRocks show.</summary>
+    <category term="MvvmCross" label="MvvmCross"/>
+    <category term="MediatR" label="MediatR"/>
+    <category term="CQRS" label="CQRS"/>
+    <category term="CleanArchitecture" label="Clean Architecture"/>
+    <category term="Xamarin" label="Xamarin"/>
+    <category term="XamarinForms" label="Xamarin Forms"/>
+    <published>2018-08-07T00:00:00+00:00</published>
+  </entry>
+  <entry>
+    <id>https://duijzer.com/content/articles/2018/google-places-api/index.html</id>
+    <title>Google Places Api</title>
+    <updated>2018-09-03T00:00:00+00:00</updated>
+    <author>
+      <name>Jacob Duijzer</name>
+    </author>
+    <content type="html">&lt;p&gt;The Google Places API can be used to find locations and their details like geolocation, address and other data. It returns a predicted list of locations based on the input string. In this post I will show some details about the plugin I created.&lt;/p&gt;
+</content>
+    <link href="https://duijzer.com/content/articles/2018/google-places-api/index.html" rel="alternate"/>
+    <summary>The Google Places API can be used to find locations and their details like geolocation, address and other data. It returns a predicted list of locations based on the input string. In this post I will show some details about the plugin I created.</summary>
+    <category term="GooglePlacesAPI" label="Google Places API"/>
+    <category term="nuget" label="nuget"/>
+    <category term="GooglePlaces" label="Google Places"/>
+    <category term="XamarinForms" label="Xamarin Forms"/>
+    <category term="Xamarin" label="Xamarin"/>
+    <category term="Plugin" label="Plugin"/>
+    <published>2018-09-03T00:00:00+00:00</published>
+  </entry>
+  <entry>
+    <id>https://duijzer.com/content/articles/2018/xamarin-mac-arduino/index.html</id>
+    <title>Using an Arduino with Xamarin for Mac</title>
+    <updated>2018-09-03T00:00:00+00:00</updated>
+    <author>
+      <name>Jacob Duijzer</name>
+    </author>
+    <content type="html">&lt;p&gt;It’s all about first times: my first Xamarin.Mac app and my first Arduino connection with a Mac. I am going to explain how I connected an Arduino to a Xamarin.Mac app to create a &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Pomodoro_Technique"&gt;“pomodoro-like”&lt;/a&gt; timer.&lt;/p&gt;
+</content>
+    <link href="https://duijzer.com/content/articles/2018/xamarin-mac-arduino/index.html" rel="alternate"/>
+    <summary>It’s all about first times: my first Xamarin.Mac app and my first Arduino connection with a Mac. I am going to explain how I connected an Arduino to a Xamarin.Mac app to create a “pomodoro-like” timer.</summary>
+    <category term="Xamarin" label="Xamarin"/>
+    <category term="Xamarin.Mac" label="Xamarin.Mac"/>
+    <category term="Arduino" label="Arduino"/>
+    <category term="Plugin" label="Plugin"/>
+    <published>2018-09-03T00:00:00+00:00</published>
+  </entry>
+  <entry>
+    <id>https://duijzer.com/content/articles/2018/google-sheet-as-app-cms-part-1/index.html</id>
+    <title>Using Google Sheet as CMS for your App - Part 1</title>
+    <updated>2018-09-25T00:00:00+00:00</updated>
+    <author>
+      <name>Jacob Duijzer</name>
+    </author>
+    <content type="html">&lt;p&gt;Imagine you had an easy to understand CMS without too much overhead, just to add translations and a bit of content for your (Xamarin) app. A CMS with an “excel-like” interface, an interface most of your customers would understand without even a training? Say “Hi” to Google Sheets &amp;amp; Azure Functions!&lt;/p&gt;
+</content>
+    <link href="https://duijzer.com/content/articles/2018/google-sheet-as-app-cms-part-1/index.html" rel="alternate"/>
+    <summary>Imagine you had an easy to understand CMS without too much overhead, just to add translations and a bit of content for your (Xamarin) app. A CMS with an “excel-like” interface, an interface most of your customers would understand without even a training? Say “Hi” to Google Sheets &amp; Azure Functions!</summary>
+    <category term="GoogleDocs" label="Google Docs"/>
+    <category term="CMS" label="CMS"/>
+    <category term="AzureFunctions" label="Azure Functions"/>
+    <category term="XamarinForms" label="Xamarin Forms"/>
+    <category term="Xamarin" label="Xamarin"/>
+    <category term="API" label="API"/>
+    <published>2018-09-25T00:00:00+00:00</published>
+  </entry>
+  <entry>
+    <id>https://duijzer.com/content/articles/2019/async-model-validation/index.html</id>
+    <title>Asynchronous Model Validation</title>
+    <updated>2019-03-07T00:00:00+00:00</updated>
+    <author>
+      <name>Jacob Duijzer</name>
+    </author>
+    <content type="html">&lt;p&gt;Last week I found some &lt;a class="reference external" href="http://www.kamilgrzybek.com/"&gt;great articles&lt;/a&gt; about &lt;a class="reference external" href="https://martinfowler.com/tags/domain%20driven%20design.html"&gt;Domain Driven Design&lt;/a&gt;. While I have been trying out various patterns and design principles like Clean Architecture and Domain Driven Design I was still finding out how to implement domain events. While doing some exercises I came up with a solution to validate domain entities with asynchronous validations which I want to share.&lt;/p&gt;
+</content>
+    <link href="https://duijzer.com/content/articles/2019/async-model-validation/index.html" rel="alternate"/>
+    <summary>Last week I found some great articles about Domain Driven Design. While I have been trying out various patterns and design principles like Clean Architecture and Domain Driven Design I was still finding out how to implement domain events. While doing some exercises I came up with a solution to validate domain entities with asynchronous validations which I want to share.</summary>
+    <category term="DDD" label="DDD"/>
+    <category term="validation" label="validation"/>
+    <category term="async" label="async"/>
+    <category term="DomainDrivenDesign" label="Domain Driven Design"/>
+    <published>2019-03-07T00:00:00+00:00</published>
+  </entry>
+  <entry>
+    <id>https://duijzer.com/content/articles/2019/arrowhead-antipattern-challenge/index.html</id>
+    <title>Arrowhead anti-pattern challenge</title>
+    <updated>2019-11-07T00:00:00+00:00</updated>
+    <author>
+      <name>Jacob Duijzer</name>
+    </author>
+    <content type="html">&lt;p&gt;Just recently I had to work on a huge flow-chart to determine farm types based on the animal transports to and from farm locations. I started out with a small proof of concept but didn’t like the way it turned out. I did some research and learned I was basically creating a so called arrow head (&lt;a class="reference external" href="http://wiki.c2.com/?ArrowAntiPattern"&gt;“Arrowhead” anti-pattern &lt;/a&gt;).&lt;/p&gt;
+</content>
+    <link href="https://duijzer.com/content/articles/2019/arrowhead-antipattern-challenge/index.html" rel="alternate"/>
+    <summary>Just recently I had to work on a huge flow-chart to determine farm types based on the animal transports to and from farm locations. I started out with a small proof of concept but didn’t like the way it turned out. I did some research and learned I was basically creating a so called arrow head (“Arrowhead” anti-pattern ).</summary>
+    <category term="csharp" label="csharp"/>
+    <category term="dotnet" label="dotnet"/>
+    <category term="validation" label="validation"/>
+    <category term="anti-pattern" label="anti-pattern"/>
+    <published>2019-11-07T00:00:00+00:00</published>
+  </entry>
+  <entry>
+    <id>https://duijzer.com/content/articles/2021/specflow/index.html</id>
+    <title>Specflow and Eventual Consistency</title>
+    <updated>2021-05-30T00:00:00+00:00</updated>
+    <author>
+      <name>Jacob Duijzer</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;a class="reference external" href="https://specflow.org/"&gt;SpecFlow&lt;/a&gt; is a tool which can be used to describe test scenarios and automate the tests. Although I have been using SpecFlow for a while now I never used it for advanced examples where time might be an issue. Lets show a simple example scenario first. A scenario, written in &lt;a class="reference external" href="https://cucumber.io/docs/gherkin/reference/"&gt;Gherkin&lt;/a&gt;, looks like this:&lt;/p&gt;
+</content>
+    <link href="https://duijzer.com/content/articles/2021/specflow/index.html" rel="alternate"/>
+    <summary>SpecFlow is a tool which can be used to describe test scenarios and automate the tests. Although I have been using SpecFlow for a while now I never used it for advanced examples where time might be an issue. Lets show a simple example scenario first. A scenario, written in Gherkin, looks like this:</summary>
+    <category term="specflow" label="specflow"/>
+    <category term="behaviourdrivendevelopment" label="behaviour driven development"/>
+    <category term="bdd" label="bdd"/>
+    <category term="gherkin" label="gherkin"/>
+    <category term="polly" label="polly"/>
+    <published>2021-05-30T00:00:00+00:00</published>
+  </entry>
 </feed>

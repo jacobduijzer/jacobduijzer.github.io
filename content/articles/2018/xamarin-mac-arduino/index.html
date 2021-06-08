@@ -1,0 +1,623 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Using an Arduino with Xamarin for Mac &#8212;   documentation</title>
+    
+  <link href="../../../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../../../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+     
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../../blog/atom.xml"
+  title="Jacobs Weblog"
+/>
+ 
+<style type="text/css">
+  ul.ablog-archive {
+    list-style: none;
+    overflow: auto;
+    margin-left: 0px;
+  }
+  ul.ablog-archive li {
+    float: left;
+    margin-right: 5px;
+    font-size: 80%;
+  }
+  ul.postlist a {
+    font-style: italic;
+  }
+  ul.postlist-style-disc {
+    list-style-type: disc;
+  }
+  ul.postlist-style-none {
+    list-style-type: none;
+  }
+  ul.postlist-style-circle {
+    list-style-type: circle;
+  }
+</style>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+<a class="navbar-brand" href="../../../../index.html">
+<p class="title"></p>
+</a>
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../blog.html">
+  Home
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../about.html">
+  About me
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar">
+<div class="name">
+    <a href="/">Jacobs Blog</a>
+</div>
+<div class="focusareas">
+.NET | TDD | Architecture  
+</div>
+<form class="bd-search d-flex align-items-center" action="/search.html" method="get">
+<i class="icon fas fa-search"></i>
+<input type="search" class="form-control" name="q" id="search-input" placeholder="Search for treasure..." aria-label="Search for treasure..." autocomplete="off">
+</form>
+
+
+
+<div class="focusarea">
+  <a href="../../../blog/tag.html">Tags</a>
+</div>
+<style type="text/css">
+  ul.ablog-cloud {
+    list-style: none;
+    overflow: auto;
+  }
+  ul.ablog-cloud li {
+    float: left;
+    height: 20pt;
+    line-height: 18pt;
+    margin-right: 5px;
+  }
+  ul.ablog-cloud a {
+    text-decoration: none;
+    vertical-align: middle;
+  }
+  li.ablog-cloud-1 {
+    font-size: 80%;
+  }
+  li.ablog-cloud-2 {
+    font-size: 95%;
+  }
+  li.ablog-cloud-3 {
+    font-size: 110%;
+  }
+  li.ablog-cloud-4 {
+    font-size: 125%;
+  }
+  li.ablog-cloud-5 {
+    font-size: 140%;
+  }
+</style>
+<ul class="ablog-cloud">
+   
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/api.html">API</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/arduino.html">Arduino</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/azure-functions.html">Azure Functions</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/cms.html">CMS</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/cqrs.html">CQRS</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/clean-architecture.html">Clean Architecture</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/ddd.html">DDD</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/domain-driven-design.html">Domain Driven Design</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/google-docs.html">Google Docs</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/google-places.html">Google Places</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/google-places-api.html">Google Places API</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/mediatr.html">MediatR</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/mvvmcross.html">MvvmCross</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-2">
+    <a href="../../../blog/tag/plugin.html">Plugin</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-5">
+    <a href="../../../blog/tag/xamarin.html">Xamarin</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-3">
+    <a href="../../../blog/tag/xamarin-forms.html">Xamarin Forms</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/xamarinmac.html">Xamarin.Mac</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/anti-pattern.html">anti-pattern</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/async.html">async</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/bdd.html">bdd</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/behaviour-driven-development.html">behaviour driven development</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/csharp.html">csharp</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/dotnet.html">dotnet</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/gherkin.html">gherkin</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/nuget.html">nuget</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/polly.html">polly</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/specflow.html">specflow</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-2">
+    <a href="../../../blog/tag/validation.html">validation</a>
+  </li>
+   
+</ul>
+
+<div class="focusarea">
+  <a href="../../../blog/archive.html">Archives</a>
+</div>
+<ul>
+   
+  <li>
+    <a href="../../../blog/2021.html">2021 (1)</a>
+  </li>
+    
+  <li>
+    <a href="../../../blog/2019.html">2019 (2)</a>
+  </li>
+    
+  <li>
+    <a href="../../../blog/2018.html">2018 (4)</a>
+  </li>
+   
+</ul>
+<div class="focusareas">
+Social Networks
+</div>
+<div class="whatido">
+<a href="https://github.com/jacobduijzer" target="_blank" class="fab fa-github"></a>&nbsp;&nbsp;
+<a href="https://www.linkedin.com/in/jacobduijzer/" target="_blank" class="fab fa-linkedin-in"></a>&nbsp;&nbsp;
+<a href="https://twitter.com/jacobduijzer" target="_blank" class="fab fa-twitter"></a>
+</div>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Using an Arduino with Xamarin for Mac
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-xamarin-mac-app">
+   The Xamarin.Mac App
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-arduino-code">
+   The Arduino code
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#links">
+   Links
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                 <div class="section" id="using-an-arduino-with-xamarin-for-mac">
+<h1>Using an Arduino with Xamarin for Mac<a class="headerlink" href="#using-an-arduino-with-xamarin-for-mac" title="Permalink to this headline">¶</a></h1>
+<p>It’s all about first times: my first Xamarin.Mac app and my first Arduino connection with a Mac. I am going to explain how I connected an Arduino to a Xamarin.Mac app to create a <a class="reference external" href="https://en.wikipedia.org/wiki/Pomodoro_Technique">“pomodoro-like”</a> timer.</p>
+<!--more-->
+</div>
+<div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>One of my colleagues was complaining about being disturbed a lot while working, having trouble keeping his focus. I have worked in a team with this exact same issue before, we came up with a simple solution: we bought some simple, small red flags on a stand. Put the flag up and your colleagues will know that you are busy. This worked for a while but everyone will forget to remove the flag and people will not know if you are really busy or not.</p>
+<p>I spend a few hours during the weekend and came up with the following: a contraption with a servo to raise a flag to show a “Do not disturb” message. A Xamarin.Mac app sends a signal to an Arduino to raise or lower the flag, the flag can be placed on your desk or your monitor. For the current prototype I used some Lego, I might create a better device later.</p>
+<p><img alt="First test" src="https://github.com/jacobduijzer/DoNotDisturbMe/raw/master/artwork/firsttest.gif" /></p>
+<p><img alt="The prototype" src="https://github.com/jacobduijzer/DoNotDisturbMe/raw/master/artwork/prototype.gif" /></p>
+</div>
+<div class="section" id="the-xamarin-mac-app">
+<h1>The Xamarin.Mac App<a class="headerlink" href="#the-xamarin-mac-app" title="Permalink to this headline">¶</a></h1>
+<p>The Mac app is fairly simple. It’s my first Xamarin.Mac app so I know it can be refactored and cleaned up but it served it’s purpose. There is no window, only a system icon with a menu.</p>
+<p><img alt="Mac app" src="https://github.com/jacobduijzer/DoNotDisturbMe/raw/master/artwork/screenshot.png" /></p>
+<p>Selecting “Test” makes it possible to easily test the functionallity, it changes the minutes into seconds.</p>
+<p><strong>Important:</strong> to be able to use the Arduino (or tty ports in general) you need to use the full Xamarin.Mac framework:</p>
+<p><span class="xref myst"><img alt="Full framework" src="../../../../_images/full_xamarin_mac_framework.png" /></span></p>
+<p>I will just show some parts of the application. It is fairly straight forward. Please check the full code <a class="reference external" href="https://github.com/jacobduijzer/DoNotDisturbMe">here</a>.</p>
+<p>To find (potential) arduino’s use the <code class="docutils literal notranslate"><span class="pre">System.IO.Ports.SerialPort</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">ports</span> <span class="o">=</span> <span class="n">SerialPort</span><span class="o">.</span><span class="n">GetPortNames</span><span class="p">()</span><span class="o">.</span><span class="n">Where</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="n">x</span><span class="o">.</span><span class="n">Contains</span><span class="p">(</span><span class="s2">&quot;usbmodem&quot;</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Opening a serial connection (it also flags the open port in the menu):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">private</span> <span class="n">void</span> <span class="n">ConnectToArduino</span><span class="p">(</span><span class="n">string</span> <span class="n">port</span><span class="p">)</span>
+<span class="p">{</span>         
+    <span class="k">try</span>
+    <span class="p">{</span>
+		<span class="n">UncheckArduinoMenuItems</span><span class="p">();</span>
+		
+		<span class="n">TryCloseSerial</span><span class="p">();</span>
+
+        <span class="n">_serialPort</span> <span class="o">=</span> <span class="n">new</span> <span class="n">SerialPort</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="mi">9600</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">_serialPort</span> <span class="o">!=</span> <span class="n">null</span><span class="p">)</span>
+        <span class="p">{</span>
+			<span class="n">_serialPort</span><span class="o">.</span><span class="n">Open</span><span class="p">();</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">_serialPort</span><span class="o">.</span><span class="n">IsOpen</span><span class="p">)</span>
+			<span class="p">{</span>
+				<span class="n">ArduinoPortsMenu</span><span class="o">.</span><span class="n">Submenu</span><span class="o">.</span><span class="n">ItemArray</span><span class="p">()</span><span class="o">.</span><span class="n">FirstOrDefault</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="n">x</span><span class="o">.</span><span class="n">Title</span><span class="o">.</span><span class="n">Equals</span><span class="p">(</span><span class="n">port</span><span class="p">))</span><span class="o">.</span><span class="n">State</span> <span class="o">=</span> <span class="n">NSCellStateValue</span><span class="o">.</span><span class="n">On</span><span class="p">;</span>
+			<span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">catch</span> <span class="p">(</span><span class="ne">Exception</span> <span class="n">ex</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+    <span class="k">finally</span>
+    <span class="p">{</span>
+		<span class="n">SetSystemIcon</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Write some angles to the Arduino:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">private</span> <span class="n">void</span> <span class="n">WriteDataToArduino</span><span class="p">(</span><span class="n">ArduinoCommands</span> <span class="n">command</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">_serialPort</span> <span class="o">!=</span> <span class="n">null</span> <span class="o">&amp;&amp;</span> <span class="n">_serialPort</span><span class="o">.</span><span class="n">IsOpen</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">switch</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="n">case</span> <span class="n">ArduinoCommands</span><span class="o">.</span><span class="n">Up</span><span class="p">:</span>
+				<span class="n">_serialPort</span><span class="o">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">);</span>
+				<span class="k">break</span><span class="p">;</span>
+
+			<span class="n">case</span> <span class="n">ArduinoCommands</span><span class="o">.</span><span class="n">Down</span><span class="p">:</span>
+				<span class="n">_serialPort</span><span class="o">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s2">&quot;255&quot;</span><span class="p">);</span>
+                <span class="k">break</span><span class="p">;</span>
+
+			<span class="n">case</span> <span class="n">ArduinoCommands</span><span class="o">.</span><span class="n">Angle</span><span class="p">:</span>
+				<span class="n">_serialPort</span><span class="o">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s2">&quot;angle&quot;</span><span class="p">);</span>
+				<span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-arduino-code">
+<h1>The Arduino code<a class="headerlink" href="#the-arduino-code" title="Permalink to this headline">¶</a></h1>
+<p>The Arduino code is fairly simple. It waits for serial input which should contain the servo angle. It converts the string to an integer value and writes it to the servo.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &lt;Servo.h&gt;</span>
+
+<span class="n">String</span> <span class="n">inputString</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>         <span class="o">//</span> <span class="n">a</span> <span class="n">String</span> <span class="n">to</span> <span class="n">hold</span> <span class="n">incoming</span> <span class="n">data</span>
+<span class="n">boolean</span> <span class="n">stringComplete</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>  <span class="o">//</span> <span class="n">whether</span> <span class="n">the</span> <span class="n">string</span> <span class="ow">is</span> <span class="n">complete</span>
+<span class="nb">int</span> <span class="n">lastAngle</span><span class="p">;</span>
+
+<span class="n">Servo</span> <span class="n">myServo</span><span class="p">;</span>
+
+<span class="n">void</span> <span class="n">setup</span><span class="p">()</span> 
+<span class="p">{</span>
+  <span class="n">myServo</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="mi">9</span><span class="p">);</span>
+  <span class="n">myServo</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+  <span class="n">Serial</span><span class="o">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span>
+  <span class="n">inputString</span><span class="o">.</span><span class="n">reserve</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">loop</span><span class="p">()</span> 
+<span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">stringComplete</span><span class="p">)</span> 
+  <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">inputString</span> <span class="o">==</span> <span class="s2">&quot;angle&quot;</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="n">Serial</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">lastAngle</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+      <span class="n">Serial</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">inputString</span><span class="p">);</span>
+      
+      <span class="n">lastAngle</span> <span class="o">=</span> <span class="n">inputString</span><span class="o">.</span><span class="n">toInt</span><span class="p">();</span>
+      
+      <span class="n">myServo</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="mi">9</span><span class="p">);</span>
+      <span class="n">myServo</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">lastAngle</span><span class="p">);</span>
+      <span class="n">delay</span><span class="p">(</span><span class="mi">250</span><span class="p">);</span>
+      <span class="n">myServo</span><span class="o">.</span><span class="n">detach</span><span class="p">();</span> 
+    <span class="p">}</span>
+    
+    
+    <span class="o">//</span> <span class="n">clear</span> <span class="n">the</span> <span class="n">string</span><span class="p">:</span>
+    <span class="n">inputString</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+    <span class="n">stringComplete</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">serialEvent</span><span class="p">()</span> 
+<span class="p">{</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">Serial</span><span class="o">.</span><span class="n">available</span><span class="p">())</span> 
+  <span class="p">{</span>
+    <span class="n">char</span> <span class="n">inChar</span> <span class="o">=</span> <span class="p">(</span><span class="n">char</span><span class="p">)</span><span class="n">Serial</span><span class="o">.</span><span class="n">read</span><span class="p">();</span>
+    <span class="n">inputString</span> <span class="o">+=</span> <span class="n">inChar</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">inChar</span> <span class="o">==</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> 
+    <span class="p">{</span>
+      <span class="n">stringComplete</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="links">
+<h1>Links<a class="headerlink" href="#links" title="Permalink to this headline">¶</a></h1>
+<p>Full source: <a class="reference external" href="https://github.com/jacobduijzer/DoNotDisturbMe">DoNotDisturbMe</a></p>
+</div>
+
+<div class="section">
+     
+<div class="section">
+  <span style="float: left">
+     
+    <a href="../google-places-api/index.html">
+      <i class="fa fa-arrow-circle-left"></i> Google Places Api
+    </a>
+    
+  </span>
+  <span>&nbsp;</span>
+  <span style="float: right">
+     
+    <a href="../google-sheet-as-app-cms-part-1/index.html">
+      Using Google Sheet as CMS for your App - Part 1 <i
+        class="fa fa-arrow-circle-right"
+      ></i
+      >
+    </a>
+    
+  </span>
+</div>
+  
+  <div class="section">
+    <h2>Comments</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      var disqus_shortname = "blog-duijzer-com";
+      var disqus_identifier = "/content/articles/2018/xamarin-mac-arduino/";
+      var disqus_title = "Using an Arduino with Xamarin for Mac";
+      var disqus_url = "https://duijzer.com/content/articles/2018/xamarin-mac-arduino/";
+
+      (function () {
+        var dsq = document.createElement("script");
+        dsq.type = "text/javascript";
+        dsq.async = true;
+        dsq.src = "//" + disqus_shortname + ".disqus.com/embed.js";
+        (
+          document.getElementsByTagName("head")[0] ||
+          document.getElementsByTagName("body")[0]
+        ).appendChild(dsq);
+      })();
+    </script>
+    <noscript
+      >Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript"
+        >comments powered by Disqus.</a
+      ></noscript
+    >
+    <a href="https://disqus.com" class="dsq-brlink"
+      >comments powered by <span class="logo-disqus">Disqus</span></a
+    >
+  </div>
+  
+</div>
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, Jacob Duijzer.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

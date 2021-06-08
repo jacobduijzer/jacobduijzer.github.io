@@ -1,0 +1,924 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arrowhead anti-pattern challenge &#8212;   documentation</title>
+    
+  <link href="../../../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../../../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+     
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../../blog/atom.xml"
+  title="Jacobs Weblog"
+/>
+ 
+<style type="text/css">
+  ul.ablog-archive {
+    list-style: none;
+    overflow: auto;
+    margin-left: 0px;
+  }
+  ul.ablog-archive li {
+    float: left;
+    margin-right: 5px;
+    font-size: 80%;
+  }
+  ul.postlist a {
+    font-style: italic;
+  }
+  ul.postlist-style-disc {
+    list-style-type: disc;
+  }
+  ul.postlist-style-none {
+    list-style-type: none;
+  }
+  ul.postlist-style-circle {
+    list-style-type: circle;
+  }
+</style>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+<a class="navbar-brand" href="../../../../index.html">
+<p class="title"></p>
+</a>
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../blog.html">
+  Home
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../about.html">
+  About me
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar">
+<div class="name">
+    <a href="/">Jacobs Blog</a>
+</div>
+<div class="focusareas">
+.NET | TDD | Architecture  
+</div>
+<form class="bd-search d-flex align-items-center" action="/search.html" method="get">
+<i class="icon fas fa-search"></i>
+<input type="search" class="form-control" name="q" id="search-input" placeholder="Search for treasure..." aria-label="Search for treasure..." autocomplete="off">
+</form>
+
+
+
+<div class="focusarea">
+  <a href="../../../blog/tag.html">Tags</a>
+</div>
+<style type="text/css">
+  ul.ablog-cloud {
+    list-style: none;
+    overflow: auto;
+  }
+  ul.ablog-cloud li {
+    float: left;
+    height: 20pt;
+    line-height: 18pt;
+    margin-right: 5px;
+  }
+  ul.ablog-cloud a {
+    text-decoration: none;
+    vertical-align: middle;
+  }
+  li.ablog-cloud-1 {
+    font-size: 80%;
+  }
+  li.ablog-cloud-2 {
+    font-size: 95%;
+  }
+  li.ablog-cloud-3 {
+    font-size: 110%;
+  }
+  li.ablog-cloud-4 {
+    font-size: 125%;
+  }
+  li.ablog-cloud-5 {
+    font-size: 140%;
+  }
+</style>
+<ul class="ablog-cloud">
+   
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/api.html">API</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/arduino.html">Arduino</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/azure-functions.html">Azure Functions</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/cms.html">CMS</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/cqrs.html">CQRS</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/clean-architecture.html">Clean Architecture</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/ddd.html">DDD</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/domain-driven-design.html">Domain Driven Design</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/google-docs.html">Google Docs</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/google-places.html">Google Places</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/google-places-api.html">Google Places API</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/mediatr.html">MediatR</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/mvvmcross.html">MvvmCross</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-2">
+    <a href="../../../blog/tag/plugin.html">Plugin</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-5">
+    <a href="../../../blog/tag/xamarin.html">Xamarin</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-3">
+    <a href="../../../blog/tag/xamarin-forms.html">Xamarin Forms</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/xamarinmac.html">Xamarin.Mac</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/anti-pattern.html">anti-pattern</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/async.html">async</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/bdd.html">bdd</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/behaviour-driven-development.html">behaviour driven development</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/csharp.html">csharp</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/dotnet.html">dotnet</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/gherkin.html">gherkin</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/nuget.html">nuget</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/polly.html">polly</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/specflow.html">specflow</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-2">
+    <a href="../../../blog/tag/validation.html">validation</a>
+  </li>
+   
+</ul>
+
+<div class="focusarea">
+  <a href="../../../blog/archive.html">Archives</a>
+</div>
+<ul>
+   
+  <li>
+    <a href="../../../blog/2021.html">2021 (1)</a>
+  </li>
+    
+  <li>
+    <a href="../../../blog/2019.html">2019 (2)</a>
+  </li>
+    
+  <li>
+    <a href="../../../blog/2018.html">2018 (4)</a>
+  </li>
+   
+</ul>
+<div class="focusareas">
+Social Networks
+</div>
+<div class="whatido">
+<a href="https://github.com/jacobduijzer" target="_blank" class="fab fa-github"></a>&nbsp;&nbsp;
+<a href="https://www.linkedin.com/in/jacobduijzer/" target="_blank" class="fab fa-linkedin-in"></a>&nbsp;&nbsp;
+<a href="https://twitter.com/jacobduijzer" target="_blank" class="fab fa-twitter"></a>
+</div>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Arrowhead anti-pattern challenge
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-clean-and-solid-challenge">
+   The Clean and Solid Challenge
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-software">
+   The software
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-challenge">
+   The Challenge
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-top-3-solutions-for-now">
+   The top 3 solutions (for now)
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bob-final-bob">
+     1. bob-final (Bob)
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bitwise-justin">
+     2. bitwise (Justin)
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#validations-myself">
+     3. validations (myself)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#general-learnings">
+   General learnings
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#testing-test-data">
+     Testing / Test data
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#complex-decisions">
+     Complex decisions
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#clean-and-understandable-code">
+     Clean and understandable code
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#any-feedback">
+   Any feedback?
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bonus-a-name-bonus-anchor-a">
+   Bonus
+   <a name="bonus-anchor">
+   </a>
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#links">
+   Links
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                 <div class="section" id="arrowhead-anti-pattern-challenge">
+<h1>Arrowhead anti-pattern challenge<a class="headerlink" href="#arrowhead-anti-pattern-challenge" title="Permalink to this headline">¶</a></h1>
+<p>Just recently I had to work on a huge flow-chart to determine farm types based on the animal transports to and from farm locations. I started out with a small proof of concept but didn’t like the way it turned out. I did some research and learned I was basically creating a so called arrow head (<a class="reference external" href="http://wiki.c2.com/?ArrowAntiPattern">“Arrowhead” anti-pattern </a>).</p>
+<p>While it was nothing new, I never knew it was called arrowhead anti-pattern (or arrow anti-pattern).</p>
+<p>There might be more than one solution to solve this problem and I was wondering if my colleagues could help me out so I wrote a challenge and dropped into our developers Slack channel.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>8 November 2019: added a <a class="reference external" href="#bonus-anchor">bonus</a> contribution from Bob, written in prolog</p>
+</div>
+</div>
+<div class="section" id="the-clean-and-solid-challenge">
+<h1>The Clean and Solid Challenge<a class="headerlink" href="#the-clean-and-solid-challenge" title="Permalink to this headline">¶</a></h1>
+<p>Restaurant “The Cool Robot” is a restaurant with a cool robot as bar-tender. This robot is very efficient (although maybe a bit sexist) and will serve you a drink based on some simple rules.</p>
+<p>While developing the robot a business analyst came up with the following flow-chart:</p>
+<p><img alt="Bar tender service" src="../../../../_images/bartender-service.png" /></p>
+<p>After an event-storming session the team came up with the following objects:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">class</span> <span class="nc">Person</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">FirstName</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">LastName</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="n">Gender</span> <span class="n">Gender</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="kt">int</span> <span class="n">Age</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="kt">bool</span> <span class="n">HasAdhd</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">enum</span> <span class="n">Gender</span>
+<span class="p">{</span>
+    <span class="n">Male</span><span class="p">,</span>
+    <span class="n">Female</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-software">
+<h1>The software<a class="headerlink" href="#the-software" title="Permalink to this headline">¶</a></h1>
+<p>While developing the first version of the robot software the developers quickly ran into the <a class="reference external" href="http://wiki.c2.com/?ArrowAntiPattern">“Arrowhead”</a> anti-pattern:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">class</span> <span class="nc">BarTenderService</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="nf">ServeDrink</span><span class="p">(</span><span class="n">Person</span> <span class="n">person</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">OlderThanEighteen</span><span class="p">.</span><span class="n">Satisfied</span><span class="p">(</span><span class="n">person</span><span class="p">))</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">GenderIsMale</span><span class="p">.</span><span class="n">Satisfied</span><span class="p">(</span><span class="n">person</span><span class="p">))</span>
+            <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">OlderThanFifty</span><span class="p">.</span><span class="n">Satisfied</span><span class="p">(</span><span class="n">person</span><span class="p">))</span>
+                <span class="p">{</span>
+                    <span class="k">return</span> <span class="s">&quot;Whiskey&quot;</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">else</span>
+                <span class="p">{</span>
+                    <span class="k">return</span> <span class="s">&quot;Beer&quot;</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="k">else</span>
+            <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">YoungerThanThirty</span><span class="p">.</span><span class="n">Satisfied</span><span class="p">(</span><span class="n">person</span><span class="p">))</span>
+                <span class="p">{</span>
+                    <span class="k">return</span> <span class="s">&quot;Wine&quot;</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">else</span>
+                <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">OlderThanFifty</span><span class="p">.</span><span class="n">Satisfied</span><span class="p">(</span><span class="n">person</span><span class="p">))</span>
+                    <span class="p">{</span>
+                        <span class="k">return</span> <span class="s">&quot;Wine&quot;</span><span class="p">;</span>
+                    <span class="p">}</span>
+                    <span class="k">else</span>
+                    <span class="p">{</span>
+                        <span class="k">return</span> <span class="s">&quot;Beer&quot;</span><span class="p">;</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">GenderIsMale</span><span class="p">.</span><span class="n">Satisfied</span><span class="p">(</span><span class="n">person</span><span class="p">))</span>
+            <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">HasAdhd</span><span class="p">.</span><span class="n">Satisfied</span><span class="p">(</span><span class="n">person</span><span class="p">))</span>
+                <span class="p">{</span>
+                    <span class="k">return</span> <span class="s">&quot;Apple juice&quot;</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">else</span>
+                <span class="p">{</span>
+                    <span class="k">return</span> <span class="s">&quot;Coke&quot;</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="k">else</span>
+            <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">HasAdhd</span><span class="p">.</span><span class="n">Satisfied</span><span class="p">(</span><span class="n">person</span><span class="p">))</span>
+                <span class="p">{</span>
+                    <span class="k">return</span> <span class="s">&quot;Orange juice&quot;</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="k">else</span>
+                <span class="p">{</span>
+                    <span class="k">return</span> <span class="s">&quot;Fanta&quot;</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-challenge">
+<h1>The Challenge<a class="headerlink" href="#the-challenge" title="Permalink to this headline">¶</a></h1>
+<p>The developers did not have any clue about how to move forward and how to create an elegant and clean piece of software, keeping the <a class="reference external" href="https://en.wikipedia.org/wiki/SOLID">SOLID</a> principles in consideration. It seemed like a cool idea to have a challenge to give developers a change to show their ideas and solutions to this problem.</p>
+<p>So, the challenge:</p>
+<ul class="simple">
+<li><p>Refactor the code above.</p></li>
+</ul>
+<p>The Price:</p>
+<ul class="simple">
+<li><p>The most elegant solution (arbitrary!) will get forever, unlimited &amp; free drinks at “The Cool Robot”!</p></li>
+</ul>
+</div>
+<div class="section" id="the-top-3-solutions-for-now">
+<h1>The top 3 solutions (for now)<a class="headerlink" href="#the-top-3-solutions-for-now" title="Permalink to this headline">¶</a></h1>
+<p>The completely independent jury had a few basic rules in mind:</p>
+<ul class="simple">
+<li><p>The SOLID principles</p></li>
+<li><p>Readability of the code, especially of the flows</p></li>
+<li><p>Reusability and testability of the business logic</p></li>
+</ul>
+<p>They did not consider speed or efficiency.</p>
+<div class="section" id="bob-final-bob">
+<h2>1. bob-final (Bob)<a class="headerlink" href="#bob-final-bob" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://github.com/jacobduijzer/ArrowHeadAntiPatternChallenge/tree/feature/bob-final">The winning solution</a> because of its elegance. Readable flows, reusable business logic and quite SOLID.</p>
+<p>Most applicable principles:</p>
+<ul class="simple">
+<li><p>Single Responsibility: the service does not anything fancy, it just determines which drink to serve.</p></li>
+<li><p>Open/Closed: new flows can be added, old flows can be changed or removed without changing the core service.</p></li>
+</ul>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">class</span> <span class="nc">BarTenderService</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="k">readonly</span> <span class="n">ICollection</span><span class="p">&lt;</span><span class="n">Spec</span><span class="p">&lt;</span><span class="n">Person</span><span class="p">,</span> <span class="kt">string</span><span class="p">&gt;&gt;</span> <span class="n">_flows</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="nf">BarTenderService</span><span class="p">(</span><span class="n">ICollection</span><span class="p">&lt;</span><span class="n">Spec</span><span class="p">&lt;</span><span class="n">Person</span><span class="p">,</span> <span class="kt">string</span><span class="p">&gt;&gt;</span> <span class="n">flows</span><span class="p">)</span> <span class="p">=&gt;</span>
+        <span class="n">_flows</span> <span class="p">=</span> <span class="n">flows</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="kt">string</span> <span class="nf">ServeDrink</span><span class="p">(</span><span class="n">Person</span> <span class="n">person</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">foreach</span> <span class="p">(</span> <span class="kt">var</span> <span class="n">rule</span> <span class="k">in</span> <span class="n">_flows</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">rule</span><span class="p">.</span><span class="n">Satisfies</span><span class="p">(</span><span class="n">person</span><span class="p">))</span> <span class="k">return</span> <span class="n">rule</span><span class="p">.</span><span class="n">Result</span><span class="p">;</span>
+
+        <span class="k">return</span> <span class="s">&quot;Water! :&#39;(&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">static</span> <span class="n">Spec</span><span class="p">&lt;</span><span class="n">Person</span><span class="p">,</span> <span class="kt">string</span><span class="p">&gt;</span> <span class="n">FantaFlow</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Spec</span><span class="p">&lt;</span><span class="n">Person</span><span class="p">,</span> <span class="kt">string</span><span class="p">&gt;()</span>
+            <span class="p">.</span><span class="n">WhereNot</span><span class="p">(</span><span class="n">Validators</span><span class="p">.</span><span class="n">IsAdult</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">WhereNot</span><span class="p">(</span><span class="n">Validators</span><span class="p">.</span><span class="n">IsMale</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">WhereNot</span><span class="p">(</span><span class="n">Validators</span><span class="p">.</span><span class="n">HasAdhd</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">ResultsIn</span><span class="p">(</span><span class="s">&quot;Fanta&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="bitwise-justin">
+<h2>2. bitwise (Justin)<a class="headerlink" href="#bitwise-justin" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://github.com/jacobduijzer/ArrowHeadAntiPatternChallenge/tree/feature/bitwise">This version</a> wins the second price because of the original solution. Although it is not really a SOLID solution the jury liked the idea of using bitwise operations to do the determination. Currently business rules are enforced as Extension Methods on the object Person but can be reused and tested. The only shortcoming is the current service, when new flows are added the service has to change thus violating the Open/Closed principle.</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">class</span> <span class="nc">BarTenderService</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="k">readonly</span> <span class="n">IList</span><span class="p">&lt;</span><span class="n">IRule</span><span class="p">&lt;</span><span class="n">PersonState</span><span class="p">&gt;&gt;</span> <span class="n">_rules</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="nf">BarTenderService</span><span class="p">(</span><span class="n">IList</span><span class="p">&lt;</span><span class="n">IRule</span><span class="p">&lt;</span><span class="n">PersonState</span><span class="p">&gt;&gt;</span> <span class="n">rules</span><span class="p">)</span> <span class="p">=&gt;</span>
+        <span class="n">_rules</span> <span class="p">=</span> <span class="n">rules</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="kt">string</span> <span class="nf">ServeDrink</span><span class="p">(</span><span class="n">Person</span> <span class="n">person</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">PersonState</span> <span class="n">personType</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">IsEighteenOrOlder</span><span class="p">())</span>
+            <span class="n">personType</span> <span class="p">|=</span> <span class="n">PersonState</span><span class="p">.</span><span class="n">EighteenOrOlder</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">IsThirtyOrOlder</span><span class="p">())</span>
+            <span class="n">personType</span> <span class="p">|=</span> <span class="n">PersonState</span><span class="p">.</span><span class="n">ThirtyOrOlder</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">IsFiftyOrOlder</span><span class="p">())</span>
+            <span class="n">personType</span> <span class="p">|=</span> <span class="n">PersonState</span><span class="p">.</span><span class="n">FiftyOrOlder</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">IsMale</span><span class="p">())</span>
+            <span class="n">personType</span> <span class="p">|=</span> <span class="n">PersonState</span><span class="p">.</span><span class="n">Male</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">HasAdhdDisorder</span><span class="p">())</span>
+            <span class="n">personType</span> <span class="p">|=</span> <span class="n">PersonState</span><span class="p">.</span><span class="n">HasAdhd</span><span class="p">;</span>
+
+        <span class="k">foreach</span> <span class="p">(</span> <span class="kt">var</span> <span class="n">rule</span> <span class="k">in</span> <span class="n">_rules</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">rule</span><span class="p">.</span><span class="n">Predicate</span><span class="p">(</span><span class="n">personType</span><span class="p">))</span> <span class="k">return</span> <span class="n">rule</span><span class="p">.</span><span class="n">Result</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="s">&quot;Water! :&#39;(&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">class</span> <span class="nc">AppleJuiceRule</span> <span class="p">:</span> <span class="n">IRule</span><span class="p">&lt;</span><span class="n">PersonState</span><span class="p">&gt;</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="n">Predicate</span><span class="p">&lt;</span><span class="n">PersonState</span><span class="p">&gt;</span> <span class="n">Predicate</span> <span class="p">=&gt;</span>
+        <span class="n">personState</span> <span class="p">=&gt;</span> <span class="p">!</span><span class="n">personState</span><span class="p">.</span><span class="n">HasFlag</span><span class="p">(</span><span class="n">PersonState</span><span class="p">.</span><span class="n">EighteenOrOlder</span><span class="p">)</span> <span class="p">&amp;&amp;</span>
+                        <span class="n">personState</span><span class="p">.</span><span class="n">HasFlag</span><span class="p">(</span><span class="n">PersonState</span><span class="p">.</span><span class="n">Male</span><span class="p">)</span> <span class="p">&amp;&amp;</span>
+                        <span class="n">personState</span><span class="p">.</span><span class="n">HasFlag</span><span class="p">(</span><span class="n">PersonState</span><span class="p">.</span><span class="n">HasAdhd</span><span class="p">);</span>
+
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">Result</span> <span class="p">=&gt;</span> <span class="s">&quot;Apple juice&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="validations-myself">
+<h2>3. validations (myself)<a class="headerlink" href="#validations-myself" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://github.com/jacobduijzer/ArrowHeadAntiPatternChallenge/tree/feature/validations">My own solution</a> looks quite a bit like the winning solution but just loses at some specific points. I actually don’t like the readability of the validations in the rules. Besides that I introduced a new Interface and an extra abstract class and thus made it more complex than necessary.</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">class</span> <span class="nc">BarTenderService</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="k">readonly</span> <span class="n">ICollection</span><span class="p">&lt;</span><span class="n">IRule</span><span class="p">&lt;</span><span class="n">Person</span><span class="p">&gt;&gt;</span> <span class="n">_rules</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="nf">BarTenderService</span><span class="p">(</span><span class="n">ICollection</span><span class="p">&lt;</span><span class="n">IRule</span><span class="p">&lt;</span><span class="n">Person</span><span class="p">&gt;&gt;</span> <span class="n">rules</span><span class="p">)</span> <span class="p">=&gt;</span>
+        <span class="n">_rules</span> <span class="p">=</span> <span class="n">rules</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="kt">string</span> <span class="nf">ServeDrink</span><span class="p">(</span><span class="n">Person</span> <span class="n">person</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">foreach</span> <span class="p">(</span> <span class="kt">var</span> <span class="n">rule</span> <span class="k">in</span> <span class="n">_rules</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">rule</span><span class="p">.</span><span class="n">Predicate</span><span class="p">(</span><span class="n">person</span><span class="p">))</span> <span class="k">return</span> <span class="n">rule</span><span class="p">.</span><span class="n">Result</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="s">&quot;Water&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">class</span> <span class="nc">AppleJuiceRule</span> <span class="p">:</span> <span class="n">IRule</span><span class="p">&lt;</span><span class="n">Person</span><span class="p">&gt;</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="n">Predicate</span><span class="p">&lt;</span><span class="n">Person</span><span class="p">&gt;</span> <span class="n">Predicate</span> <span class="p">=&gt;</span>
+        <span class="n">person</span> <span class="p">=&gt;</span> <span class="p">!</span><span class="k">new</span> <span class="n">IsAdult</span><span class="p">().</span><span class="n">Validate</span><span class="p">(</span><span class="n">person</span><span class="p">)</span> <span class="p">&amp;&amp;</span>
+                    <span class="k">new</span> <span class="nf">GenderIsMale</span><span class="p">().</span><span class="n">Validate</span><span class="p">(</span><span class="n">person</span><span class="p">)</span> <span class="p">&amp;&amp;</span>
+                    <span class="k">new</span> <span class="nf">HasAdhd</span><span class="p">().</span><span class="n">Validate</span><span class="p">(</span><span class="n">person</span><span class="p">);</span>
+
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">Result</span> <span class="p">=&gt;</span> <span class="s">&quot;Apple juice&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">class</span> <span class="nc">HasAdhd</span> <span class="p">:</span> <span class="n">AbstractValidation</span><span class="p">&lt;</span><span class="n">Person</span><span class="p">&gt;</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">override</span> <span class="n">Predicate</span><span class="p">&lt;</span><span class="n">Person</span><span class="p">&gt;</span> <span class="n">Predicate</span> <span class="p">=&gt;</span> <span class="n">person</span> <span class="p">=&gt;</span> <span class="n">person</span><span class="p">.</span><span class="n">HasAdhd</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="general-learnings">
+<h1>General learnings<a class="headerlink" href="#general-learnings" title="Permalink to this headline">¶</a></h1>
+<p>I really liked the response I received from my co-workers. Although they did not write any actual version, they really came up with some viable solutions. There were some small issues in the challenge though. I made some mistakes in the flow-chart and I missed some unit tests (no crucial tests but I forgot to test the scenario where adults were having A.D.H.D.).</p>
+<p>As the saying goes, there are many ways to Rome. I don’t know if we have the best solution but I am happy with the final result. Thing is, it took me about 1.5 days of processing some ideas, trying some versions and helping my co-workers with their idea but at the end I had a working solution which I am using in a real piece of software.</p>
+<div class="section" id="testing-test-data">
+<h2>Testing / Test data<a class="headerlink" href="#testing-test-data" title="Permalink to this headline">¶</a></h2>
+<p>Currently I am using the outcome of this challenge in a real project. While working on it I quickly realized the value of taking some time to design a good solution.</p>
+<p>One of the benefits is testing and generating test data. The business rules can very easy be translated in test data:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">static</span> <span class="n">Spec</span><span class="p">&lt;</span><span class="n">ICollection</span><span class="p">&lt;</span><span class="n">Animal</span><span class="p">&gt;,</span> <span class="kt">string</span><span class="p">&gt;</span> <span class="n">SomeFlow</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Spec</span><span class="p">&lt;</span><span class="n">ICollection</span><span class="p">&lt;</span><span class="n">Animal</span><span class="p">&gt;,</span> <span class="kt">string</span><span class="p">&gt;()</span>
+                <span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">Validators</span><span class="p">.</span><span class="n">MoreThanNinetyFivePercentYoungerThanOne</span><span class="p">)</span>
+                <span class="p">.</span><span class="n">WhereNot</span><span class="p">(</span><span class="n">TransportValidators</span><span class="p">.</span><span class="n">MoreThanEightyPercentToSlaughter</span><span class="p">)</span>
+                <span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">TransportValidators</span><span class="p">.</span><span class="n">MoreThanSeventyFivePercentIsYoungerThanThirtyOneWeeksAtTransport</span><span class="p">)</span>
+                <span class="p">.</span><span class="n">ResultsIn</span><span class="p">(</span><span class="s">&quot;SomeCategory&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Fact</span><span class="p">]</span>
+<span class="n">public</span> <span class="k">async</span> <span class="n">Task</span> <span class="n">DetermineSomeCategoryFlowAllFlows</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">var</span> <span class="n">mockRepo</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Mock</span><span class="o">&lt;</span><span class="n">IFunctionsRepository</span><span class="o">&gt;</span><span class="p">();</span>
+    <span class="n">mockRepo</span>
+        <span class="o">.</span><span class="n">Setup</span><span class="p">(</span><span class="n">x</span> <span class="o">=&gt;</span> <span class="n">x</span><span class="o">.</span><span class="n">GetAnimals</span><span class="p">(</span><span class="n">It</span><span class="o">.</span><span class="n">IsAny</span><span class="o">&lt;</span><span class="n">decimal</span><span class="o">&gt;</span><span class="p">(),</span> <span class="n">It</span><span class="o">.</span><span class="n">IsAny</span><span class="o">&lt;</span><span class="n">DateTime</span><span class="o">&gt;</span><span class="p">()))</span>
+        <span class="o">.</span><span class="n">ReturnsAsync</span><span class="p">(</span><span class="n">TestData</span><span class="p">);</span>
+
+    <span class="n">var</span> <span class="n">service</span> <span class="o">=</span> <span class="n">new</span> <span class="n">SomeService</span><span class="p">(</span><span class="n">mockRepo</span><span class="o">.</span><span class="n">Object</span><span class="p">,</span> <span class="n">Flows</span><span class="o">.</span><span class="n">Items</span><span class="p">);</span>
+    <span class="n">var</span> <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">DetermineCategory</span><span class="p">(</span><span class="mi">1234567</span><span class="p">,</span> <span class="n">DateTime</span><span class="o">.</span><span class="n">Now</span><span class="p">);</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">Category</span><span class="o">.</span><span class="n">Should</span><span class="p">()</span><span class="o">.</span><span class="n">Be</span><span class="p">(</span><span class="n">Flows</span><span class="o">.</span><span class="n">SomeFlow</span><span class="o">.</span><span class="n">Result</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="o">//</span> <span class="n">Rose</span> <span class="n">Kalveren</span> <span class="n">Starters</span>
+<span class="o">//</span> <span class="o">+</span> <span class="o">&gt;</span> <span class="mi">95</span><span class="o">%</span> <span class="o">&lt;</span> <span class="mi">12</span><span class="n">mnd</span>
+<span class="o">//</span> <span class="o">-</span> <span class="o">&gt;</span> <span class="mi">80</span><span class="o">%</span> <span class="n">SL</span>
+<span class="o">//</span> <span class="o">-</span> <span class="o">&gt;</span> <span class="n">Transport</span> <span class="o">&gt;</span> <span class="mi">75</span><span class="o">%</span> <span class="o">&lt;</span> <span class="mi">31</span><span class="n">wkn</span> <span class="p">(</span><span class="mi">217</span><span class="n">dgn</span><span class="p">)</span>
+<span class="n">private</span> <span class="n">static</span> <span class="n">ICollection</span><span class="o">&lt;</span><span class="n">Animal</span><span class="o">&gt;</span> <span class="n">TestData</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">var</span> <span class="nb">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">new</span> <span class="n">Faker</span><span class="o">&lt;</span><span class="n">Animal</span><span class="o">&gt;</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">RuleFor</span><span class="p">(</span><span class="n">animal</span> <span class="o">=&gt;</span> <span class="n">animal</span><span class="o">.</span><span class="n">Id</span><span class="p">,</span> <span class="p">(</span><span class="n">faker</span><span class="p">,</span> <span class="n">animal</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nb">id</span><span class="o">++</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">RuleFor</span><span class="p">(</span><span class="n">animal</span> <span class="o">=&gt;</span> <span class="n">animal</span><span class="o">.</span><span class="n">DateOfBirth</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">faker</span><span class="p">,</span> <span class="n">animal</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">TimeProvider</span><span class="o">.</span><span class="n">Current</span><span class="o">.</span><span class="n">UtcNow</span><span class="o">.</span><span class="n">AddDays</span><span class="p">(</span><span class="o">-</span><span class="n">faker</span><span class="o">.</span><span class="n">Random</span><span class="o">.</span><span class="n">Int</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">110</span><span class="p">)))</span>
+        <span class="o">.</span><span class="n">RuleFor</span><span class="p">(</span><span class="n">animal</span> <span class="o">=&gt;</span> <span class="n">animal</span><span class="o">.</span><span class="n">Gender</span><span class="p">,</span> <span class="s2">&quot;V&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">RuleFor</span><span class="p">(</span><span class="n">animal</span> <span class="o">=&gt;</span> <span class="n">animal</span><span class="o">.</span><span class="n">Reason</span><span class="p">,</span> <span class="s2">&quot;EXP&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">Generate</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="complex-decisions">
+<h2>Complex decisions<a class="headerlink" href="#complex-decisions" title="Permalink to this headline">¶</a></h2>
+<p>Also, the different steps in each flow contain way more business logic than the bar-tender example but it still works like a charm:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span> <span class="k">public</span> <span class="k">static</span> <span class="n">Predicate</span><span class="p">&lt;</span><span class="n">ICollection</span><span class="p">&lt;</span><span class="n">Animal</span><span class="p">&gt;&gt;</span> <span class="n">MoreThanNinetyFivePercentYoungerThanOne</span> <span class="p">=&gt;</span>
+           <span class="n">animals</span> <span class="p">=&gt;</span>
+           <span class="p">{</span>
+                <span class="n">Guard</span><span class="p">.</span><span class="n">Against</span><span class="p">.</span><span class="n">NullOrEmpty</span><span class="p">(</span><span class="n">animals</span><span class="p">,</span> <span class="n">nameof</span><span class="p">(</span><span class="n">animals</span><span class="p">));</span>
+                <span class="kt">var</span> <span class="n">percentageYoungerThanOne</span> <span class="p">=</span> <span class="p">((</span><span class="kt">double</span><span class="p">)</span> <span class="n">animals</span><span class="p">.</span><span class="n">Count</span><span class="p">(</span><span class="n">animal</span> <span class="p">=&gt;</span> <span class="n">animal</span><span class="p">.</span><span class="n">AgeInDays</span> <span class="p">&lt;</span> <span class="m">365</span><span class="p">)</span> <span class="p">/</span> <span class="n">animals</span><span class="p">.</span><span class="n">Count</span><span class="p">()</span> <span class="p">)</span> <span class="p">*</span> <span class="m">100</span><span class="p">;</span>
+                <span class="k">return</span> <span class="n">percentageYoungerThanOne</span> <span class="p">&gt;</span> <span class="m">95</span><span class="p">;</span>
+           <span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="clean-and-understandable-code">
+<h2>Clean and understandable code<a class="headerlink" href="#clean-and-understandable-code" title="Permalink to this headline">¶</a></h2>
+<p>Debugging the solution and fine-tuning the rules is very easy, we tested the flow on real data in about 2 hours and made some small changes. I could even explain the logic of the code to the Product Owner so we could sit together and find small flaws in the flow by reading the code.</p>
+</div>
+</div>
+<div class="section" id="any-feedback">
+<h1>Any feedback?<a class="headerlink" href="#any-feedback" title="Permalink to this headline">¶</a></h1>
+<p>Please let me know if you liked the article. Do you have any comment or better solutions? Did I forget something? Let me know, you can still be the winner of this challenge!</p>
+</div>
+<div class="section" id="bonus-a-name-bonus-anchor-a">
+<h1>Bonus <a name="bonus-anchor"></a><a class="headerlink" href="#bonus-a-name-bonus-anchor-a" title="Permalink to this headline">¶</a></h1>
+<p>Bob thought winning was not enough, he came up with an wrote an alternative solution in <a class="reference external" href="https://en.wikipedia.org/wiki/Prolog">Prolog</a>:</p>
+<div class="highlight-prolog notranslate"><div class="highlight"><pre><span></span><span class="c1">%% shorthand person fact constructor </span>
+<span class="p">:-</span> <span class="s s-Atom">discontiguous</span> <span class="s s-Atom">fname</span><span class="o">/</span><span class="mf">2.</span>
+<span class="nf">fname</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="nv">X</span><span class="p">)</span> <span class="p">:-</span> <span class="nf">person</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span><span class="nv">X</span><span class="p">,</span><span class="k">_</span><span class="p">,</span><span class="k">_</span><span class="p">,</span><span class="k">_</span><span class="p">,</span><span class="k">_</span><span class="p">).</span>
+<span class="p">:-</span> <span class="s s-Atom">discontiguous</span> <span class="s s-Atom">lname</span><span class="o">/</span><span class="mf">2.</span>
+<span class="nf">lname</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="nv">X</span><span class="p">)</span> <span class="p">:-</span> <span class="nf">person</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span><span class="k">_</span><span class="p">,</span><span class="nv">X</span><span class="p">,</span><span class="k">_</span><span class="p">,</span><span class="k">_</span><span class="p">,</span><span class="k">_</span><span class="p">).</span>
+<span class="p">:-</span> <span class="s s-Atom">discontiguous</span> <span class="s s-Atom">age</span><span class="o">/</span><span class="mf">2.</span>
+<span class="nf">age</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="nv">X</span><span class="p">)</span> <span class="p">:-</span> <span class="nf">person</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span><span class="k">_</span><span class="p">,</span><span class="k">_</span><span class="p">,</span><span class="nv">X</span><span class="p">,</span><span class="k">_</span><span class="p">,</span><span class="k">_</span><span class="p">).</span>
+<span class="p">:-</span> <span class="s s-Atom">discontiguous</span> <span class="s s-Atom">gender</span><span class="o">/</span><span class="mf">2.</span>
+<span class="nf">gender</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="nv">X</span><span class="p">)</span> <span class="p">:-</span> <span class="nf">person</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span><span class="k">_</span><span class="p">,</span><span class="k">_</span><span class="p">,</span><span class="k">_</span><span class="p">,</span><span class="nv">X</span><span class="p">,</span><span class="k">_</span><span class="p">).</span>
+<span class="p">:-</span> <span class="s s-Atom">discontiguous</span> <span class="s s-Atom">hasADHD</span><span class="o">/</span><span class="mf">2.</span>
+<span class="nf">hasADHD</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="nv">X</span><span class="p">)</span> <span class="p">:-</span> <span class="nf">person</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span><span class="k">_</span><span class="p">,</span><span class="k">_</span><span class="p">,</span><span class="k">_</span><span class="p">,</span><span class="k">_</span><span class="p">,</span><span class="nv">X</span><span class="p">).</span>
+
+<span class="c1">% generic truths about people:</span>
+<span class="nf">isAdult</span><span class="p">(</span><span class="nv">Person</span><span class="p">)</span> <span class="p">:-</span> <span class="nf">age</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="nv">Age</span><span class="p">),</span> <span class="nv">Age</span> <span class="o">&gt;=</span> <span class="mf">18.</span>
+<span class="nf">isMale</span><span class="p">(</span><span class="nv">Person</span><span class="p">)</span> <span class="p">:-</span> <span class="nf">gender</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="s s-Atom">male</span><span class="p">).</span>
+<span class="nf">hasADHD</span><span class="p">(</span><span class="nv">Person</span><span class="p">)</span> <span class="p">:-</span> <span class="nf">hasADHD</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="s s-Atom">true</span><span class="p">).</span>
+<span class="nf">isMiddleAged</span><span class="p">(</span><span class="nv">Person</span><span class="p">)</span> <span class="p">:-</span> <span class="nf">age</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="nv">Age</span><span class="p">),</span> <span class="nv">Age</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">,</span> <span class="s s-Atom">\+</span> <span class="nf">isVenerable</span><span class="p">(</span><span class="nv">Person</span><span class="p">).</span>
+<span class="nf">isVenerable</span><span class="p">(</span><span class="nv">Person</span><span class="p">)</span> <span class="p">:-</span> <span class="nf">age</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="nv">Age</span><span class="p">),</span> <span class="nv">Age</span> <span class="o">&gt;</span> <span class="mf">50.</span>
+
+<span class="c1">% now we can quickly define test people with ugly positional semantics ;)</span>
+<span class="nf">person</span><span class="p">(</span><span class="s s-Atom">bob</span><span class="p">,</span> <span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="s2">&quot;Klaase&quot;</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="s s-Atom">male</span><span class="p">,</span> <span class="s s-Atom">false</span><span class="p">).</span>
+<span class="nf">person</span><span class="p">(</span><span class="s s-Atom">mallegriet</span><span class="p">,</span> <span class="s2">&quot;Malle&quot;</span><span class="p">,</span> <span class="s2">&quot;Griet&quot;</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="s s-Atom">female</span><span class="p">,</span> <span class="s s-Atom">true</span><span class="p">).</span> <span class="c1">% =&gt; should drink orange juice</span>
+<span class="nf">person</span><span class="p">(</span><span class="s s-Atom">tammeknul</span><span class="p">,</span> <span class="s2">&quot;Tamme&quot;</span><span class="p">,</span> <span class="s2">&quot;Knul&quot;</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="s s-Atom">male</span><span class="p">,</span> <span class="s s-Atom">false</span><span class="p">).</span> <span class="c1">% =&gt; should drink coke</span>
+<span class="nf">person</span><span class="p">(</span><span class="s s-Atom">malleknul</span><span class="p">,</span> <span class="s2">&quot;Malle&quot;</span><span class="p">,</span> <span class="s2">&quot;Knul&quot;</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="s s-Atom">male</span><span class="p">,</span> <span class="s s-Atom">true</span><span class="p">).</span> <span class="c1">% =&gt; should drink apple juice</span>
+<span class="nf">person</span><span class="p">(</span><span class="s s-Atom">tammegriet</span><span class="p">,</span> <span class="s2">&quot;Tamme&quot;</span><span class="p">,</span> <span class="s2">&quot;Griet&quot;</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="s s-Atom">male</span><span class="p">,</span> <span class="s s-Atom">false</span><span class="p">).</span> <span class="c1">% =&gt; should drink fanta</span>
+<span class="nf">person</span><span class="p">(</span><span class="s s-Atom">wijnvrouw</span><span class="p">,</span> <span class="s2">&quot;Wijn&quot;</span><span class="p">,</span> <span class="s2">&quot;Vrouw&quot;</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="s s-Atom">female</span><span class="p">,</span> <span class="s s-Atom">false</span><span class="p">).</span> <span class="c1">% =&gt; should drink wine</span>
+<span class="nf">person</span><span class="p">(</span><span class="s s-Atom">biervrouw</span><span class="p">,</span> <span class="s2">&quot;Bier&quot;</span><span class="p">,</span> <span class="s2">&quot;Vrouw&quot;</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="s s-Atom">female</span><span class="p">,</span> <span class="s s-Atom">false</span><span class="p">).</span> <span class="c1">% =&gt; should drink wine</span>
+<span class="nf">person</span><span class="p">(</span><span class="s s-Atom">wijnOudevrouw</span><span class="p">,</span> <span class="s2">&quot;Wijn&quot;</span><span class="p">,</span> <span class="s2">&quot;Oudevrouw&quot;</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="s s-Atom">female</span><span class="p">,</span> <span class="s s-Atom">false</span><span class="p">).</span> <span class="c1">% =&gt; should drink wine</span>
+<span class="nf">person</span><span class="p">(</span><span class="s s-Atom">bierman</span><span class="p">,</span> <span class="s2">&quot;Bier&quot;</span><span class="p">,</span> <span class="s2">&quot;Man&quot;</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="s s-Atom">male</span><span class="p">,</span> <span class="s s-Atom">false</span><span class="p">).</span> <span class="c1">% =&gt; should drink wine</span>
+<span class="nf">person</span><span class="p">(</span><span class="s s-Atom">whiskeyman</span><span class="p">,</span> <span class="s2">&quot;Whiskey&quot;</span><span class="p">,</span> <span class="s2">&quot;Man&quot;</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="s s-Atom">male</span><span class="p">,</span> <span class="s s-Atom">false</span><span class="p">).</span> <span class="c1">% =&gt; should drink wine</span>
+<span class="c1">%% query with:</span>
+<span class="c1">%?- person(ID,FName,LName,Age,Gender,HasADHD).</span>
+
+<span class="c1">%% now we can define drinking rules:</span>
+<span class="c1">% minors:</span>
+<span class="nf">drinks</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="s s-Atom">fanta</span><span class="p">)</span> <span class="p">:-</span> <span class="s s-Atom">\+</span> <span class="nf">isAdult</span><span class="p">(</span><span class="nv">Person</span><span class="p">),</span> <span class="s s-Atom">\+</span> <span class="nf">isMale</span><span class="p">(</span><span class="nv">Person</span><span class="p">),</span> <span class="s s-Atom">\+</span> <span class="nf">hasADHD</span><span class="p">(</span><span class="nv">Person</span><span class="p">).</span>
+<span class="nf">drinks</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="s s-Atom">orangejuice</span><span class="p">)</span> <span class="p">:-</span> <span class="s s-Atom">\+</span> <span class="nf">isAdult</span><span class="p">(</span><span class="nv">Person</span><span class="p">),</span> <span class="s s-Atom">\+</span> <span class="nf">isMale</span><span class="p">(</span><span class="nv">Person</span><span class="p">),</span> <span class="nf">hasADHD</span><span class="p">(</span><span class="nv">Person</span><span class="p">).</span>
+<span class="nf">drinks</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="s s-Atom">coke</span><span class="p">)</span> <span class="p">:-</span> <span class="s s-Atom">\+</span> <span class="nf">isAdult</span><span class="p">(</span><span class="nv">Person</span><span class="p">),</span> <span class="nf">isMale</span><span class="p">(</span><span class="nv">Person</span><span class="p">),</span> <span class="s s-Atom">\+</span> <span class="nf">hasADHD</span><span class="p">(</span><span class="nv">Person</span><span class="p">).</span>
+<span class="nf">drinks</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="s s-Atom">applejuice</span><span class="p">)</span> <span class="p">:-</span> <span class="s s-Atom">\+</span> <span class="nf">isAdult</span><span class="p">(</span><span class="nv">Person</span><span class="p">),</span> <span class="nf">isMale</span><span class="p">(</span><span class="nv">Person</span><span class="p">),</span> <span class="nf">hasADHD</span><span class="p">(</span><span class="nv">Person</span><span class="p">).</span>
+
+<span class="c1">% adult women </span>
+<span class="nf">drinks</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="s s-Atom">wine</span><span class="p">)</span> <span class="p">:-</span> <span class="nf">isAdult</span><span class="p">(</span><span class="nv">Person</span><span class="p">),</span> <span class="s s-Atom">\+</span> <span class="nf">isMale</span><span class="p">(</span><span class="nv">Person</span><span class="p">),</span> <span class="s s-Atom">\+</span> <span class="nf">isMiddleAged</span><span class="p">(</span><span class="nv">Person</span><span class="p">).</span> <span class="c1">% this captures two groups</span>
+<span class="nf">drinks</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="s s-Atom">beer</span><span class="p">)</span> <span class="p">:-</span> <span class="nf">isAdult</span><span class="p">(</span><span class="nv">Person</span><span class="p">),</span> <span class="s s-Atom">\+</span> <span class="nf">isMale</span><span class="p">(</span><span class="nv">Person</span><span class="p">),</span> <span class="nf">isMiddleAged</span><span class="p">(</span><span class="nv">Person</span><span class="p">).</span>
+
+<span class="c1">% adult men</span>
+<span class="nf">drinks</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="s s-Atom">beer</span><span class="p">)</span> <span class="p">:-</span> <span class="nf">isAdult</span><span class="p">(</span><span class="nv">Person</span><span class="p">),</span> <span class="nf">isMale</span><span class="p">(</span><span class="nv">Person</span><span class="p">),</span> <span class="s s-Atom">\+</span> <span class="nf">isVenerable</span><span class="p">(</span><span class="nv">Person</span><span class="p">).</span>
+<span class="nf">drinks</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="s s-Atom">whiskey</span><span class="p">)</span> <span class="p">:-</span> <span class="nf">isAdult</span><span class="p">(</span><span class="nv">Person</span><span class="p">),</span> <span class="nf">isMale</span><span class="p">(</span><span class="nv">Person</span><span class="p">),</span> <span class="nf">isVenerable</span><span class="p">(</span><span class="nv">Person</span><span class="p">).</span>
+</pre></div>
+</div>
+<p>A cool solution with some nice side-effects. While the normal way to test would look like this:</p>
+<div class="highlight-prolog notranslate"><div class="highlight"><pre><span></span><span class="s s-Atom">?-</span> <span class="nf">drinks</span><span class="p">(</span><span class="s s-Atom">mallegriet</span><span class="p">,</span> <span class="nv">Drink</span><span class="p">).</span>
+<span class="nv">Drink</span> <span class="o">=</span> <span class="s s-Atom">orangejuice</span>
+</pre></div>
+</div>
+<p>With this solution it is also possible to turn the rules around, I can now ask for all persons drinking wine:</p>
+<div class="highlight-prolog notranslate"><div class="highlight"><pre><span></span><span class="s s-Atom">?-</span> <span class="nf">drinks</span><span class="p">(</span><span class="nv">Person</span><span class="p">,</span> <span class="s s-Atom">wine</span><span class="p">).</span>
+<span class="nv">Person</span> <span class="o">=</span> <span class="s s-Atom">wijnvrouw</span> <span class="p">;</span>
+<span class="nv">Person</span> <span class="o">=</span> <span class="s s-Atom">wijnOudevrouw</span> <span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="links">
+<h1>Links<a class="headerlink" href="#links" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/jacobduijzer/ArrowHeadAntiPatternChallenge">Original Challenge (Dutch description)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/jacobduijzer/ArrowHeadAntiPatternChallenge/tree/feature/bob-final">Winning solution (for now)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/jacobduijzer/ArrowHeadAntiPatternChallenge/tree/feature/bitwise">Second prize for creative solution</a></p></li>
+<li><p><a class="reference external" href="https://github.com/jacobduijzer/ArrowHeadAntiPatternChallenge/tree/feature/validations">My own attempt</a></p></li>
+</ul>
+</div>
+
+<div class="section">
+     
+<div class="section">
+  <span style="float: left">
+     
+    <a href="../async-model-validation/index.html">
+      <i class="fa fa-arrow-circle-left"></i> Asynchronous Model Validation
+    </a>
+    
+  </span>
+  <span>&nbsp;</span>
+  <span style="float: right">
+     
+    <a href="../../2021/specflow/index.html">
+      Specflow and Eventual Consistency <i
+        class="fa fa-arrow-circle-right"
+      ></i
+      >
+    </a>
+    
+  </span>
+</div>
+  
+  <div class="section">
+    <h2>Comments</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      var disqus_shortname = "blog-duijzer-com";
+      var disqus_identifier = "/content/articles/2019/arrowhead-antipattern-challenge/";
+      var disqus_title = "Arrowhead anti-pattern challenge";
+      var disqus_url = "https://duijzer.com/content/articles/2019/arrowhead-antipattern-challenge/";
+
+      (function () {
+        var dsq = document.createElement("script");
+        dsq.type = "text/javascript";
+        dsq.async = true;
+        dsq.src = "//" + disqus_shortname + ".disqus.com/embed.js";
+        (
+          document.getElementsByTagName("head")[0] ||
+          document.getElementsByTagName("body")[0]
+        ).appendChild(dsq);
+      })();
+    </script>
+    <noscript
+      >Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript"
+        >comments powered by Disqus.</a
+      ></noscript
+    >
+    <a href="https://disqus.com" class="dsq-brlink"
+      >comments powered by <span class="logo-disqus">Disqus</span></a
+    >
+  </div>
+  
+</div>
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, Jacob Duijzer.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

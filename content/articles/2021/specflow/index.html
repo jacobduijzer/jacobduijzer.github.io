@@ -1,0 +1,539 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Specflow and Eventual Consistency &#8212;   documentation</title>
+    
+  <link href="../../../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../../../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+     
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../../blog/atom.xml"
+  title="Jacobs Weblog"
+/>
+ 
+<style type="text/css">
+  ul.ablog-archive {
+    list-style: none;
+    overflow: auto;
+    margin-left: 0px;
+  }
+  ul.ablog-archive li {
+    float: left;
+    margin-right: 5px;
+    font-size: 80%;
+  }
+  ul.postlist a {
+    font-style: italic;
+  }
+  ul.postlist-style-disc {
+    list-style-type: disc;
+  }
+  ul.postlist-style-none {
+    list-style-type: none;
+  }
+  ul.postlist-style-circle {
+    list-style-type: circle;
+  }
+</style>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+<a class="navbar-brand" href="../../../../index.html">
+<p class="title"></p>
+</a>
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../blog.html">
+  Home
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../about.html">
+  About me
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar">
+<div class="name">
+    <a href="/">Jacobs Blog</a>
+</div>
+<div class="focusareas">
+.NET | TDD | Architecture  
+</div>
+<form class="bd-search d-flex align-items-center" action="/search.html" method="get">
+<i class="icon fas fa-search"></i>
+<input type="search" class="form-control" name="q" id="search-input" placeholder="Search for treasure..." aria-label="Search for treasure..." autocomplete="off">
+</form>
+
+
+
+<div class="focusarea">
+  <a href="../../../blog/tag.html">Tags</a>
+</div>
+<style type="text/css">
+  ul.ablog-cloud {
+    list-style: none;
+    overflow: auto;
+  }
+  ul.ablog-cloud li {
+    float: left;
+    height: 20pt;
+    line-height: 18pt;
+    margin-right: 5px;
+  }
+  ul.ablog-cloud a {
+    text-decoration: none;
+    vertical-align: middle;
+  }
+  li.ablog-cloud-1 {
+    font-size: 80%;
+  }
+  li.ablog-cloud-2 {
+    font-size: 95%;
+  }
+  li.ablog-cloud-3 {
+    font-size: 110%;
+  }
+  li.ablog-cloud-4 {
+    font-size: 125%;
+  }
+  li.ablog-cloud-5 {
+    font-size: 140%;
+  }
+</style>
+<ul class="ablog-cloud">
+   
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/api.html">API</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/arduino.html">Arduino</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/azure-functions.html">Azure Functions</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/cms.html">CMS</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/cqrs.html">CQRS</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/clean-architecture.html">Clean Architecture</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/ddd.html">DDD</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/domain-driven-design.html">Domain Driven Design</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/google-docs.html">Google Docs</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/google-places.html">Google Places</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/google-places-api.html">Google Places API</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/mediatr.html">MediatR</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/mvvmcross.html">MvvmCross</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-2">
+    <a href="../../../blog/tag/plugin.html">Plugin</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-5">
+    <a href="../../../blog/tag/xamarin.html">Xamarin</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-3">
+    <a href="../../../blog/tag/xamarin-forms.html">Xamarin Forms</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/xamarinmac.html">Xamarin.Mac</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/anti-pattern.html">anti-pattern</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/async.html">async</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/bdd.html">bdd</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/behaviour-driven-development.html">behaviour driven development</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/csharp.html">csharp</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/dotnet.html">dotnet</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/gherkin.html">gherkin</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/nuget.html">nuget</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/polly.html">polly</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/specflow.html">specflow</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-2">
+    <a href="../../../blog/tag/validation.html">validation</a>
+  </li>
+   
+</ul>
+
+<div class="focusarea">
+  <a href="../../../blog/archive.html">Archives</a>
+</div>
+<ul>
+   
+  <li>
+    <a href="../../../blog/2021.html">2021 (1)</a>
+  </li>
+    
+  <li>
+    <a href="../../../blog/2019.html">2019 (2)</a>
+  </li>
+    
+  <li>
+    <a href="../../../blog/2018.html">2018 (4)</a>
+  </li>
+   
+</ul>
+<div class="focusareas">
+Social Networks
+</div>
+<div class="whatido">
+<a href="https://github.com/jacobduijzer" target="_blank" class="fab fa-github"></a>&nbsp;&nbsp;
+<a href="https://www.linkedin.com/in/jacobduijzer/" target="_blank" class="fab fa-linkedin-in"></a>&nbsp;&nbsp;
+<a href="https://twitter.com/jacobduijzer" target="_blank" class="fab fa-twitter"></a>
+</div>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Specflow and Eventual Consistency
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#testing-with-eventual-consistency">
+   Testing with eventual consistency
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementation">
+   Implementation
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#report">
+   Report
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                 <div class="section" id="specflow-and-eventual-consistency">
+<h1>Specflow and Eventual Consistency<a class="headerlink" href="#specflow-and-eventual-consistency" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://specflow.org/">SpecFlow</a> is a tool which can be used to describe test scenarios and automate the tests. Although I have been using SpecFlow for a while now I never used it for advanced examples where time might be an issue. Lets show a simple example scenario first. A scenario, written in <a class="reference external" href="https://cucumber.io/docs/gherkin/reference/">Gherkin</a>, looks like this:</p>
+<div class="highlight-gherkin notranslate"><div class="highlight"><pre><span></span><span class="k">Scenario:</span><span class="nf"> Add simple item with due date</span>
+<span class="k">    Given </span><span class="nf">the user enters &quot;</span><span class="s">wash my car</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">the user adds a due date of &quot;</span><span class="s">1-1-2022</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">When </span><span class="nf">the user saves the item</span>
+<span class="nf">    </span><span class="k">Then </span><span class="nf">the item &quot;</span><span class="s">wash my car</span><span class="nf">&quot; is added to the list</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">the due date is &quot;</span><span class="s">1-1-2022</span><span class="nf">&quot;</span>
+</pre></div>
+</div>
+<p>This scenario is easy to implement, the item will be added and stored. That’s it. Easy to verify, no delays, straight forward. But what if you have some microservices with a queueing mechanism? A scenario where data will be queued before processing so we can’t exactly know when the data is processed?</p>
+</div>
+<div class="section" id="testing-with-eventual-consistency">
+<h1>Testing with eventual consistency<a class="headerlink" href="#testing-with-eventual-consistency" title="Permalink to this headline">¶</a></h1>
+<p><em><a class="reference external" href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;cad=rja&amp;uact=8&amp;ved=2ahUKEwixw9mBnurwAhWIB2MBHSIlCpAQFjAHegQIBhAD&amp;url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FEventual_consistency&amp;usg=AOvVaw0DHqhPsspV7JLvL38t1Wjs">Eventual consistency</a> is a consistency model used in distributed computing to achieve high availability that informally guarantees that, if no new updates are made to a given data item, eventually all accesses to that item will return the last updated value</em> (<a class="reference external" href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;cad=rja&amp;uact=8&amp;ved=2ahUKEwixw9mBnurwAhWIB2MBHSIlCpAQFjAHegQIBhAD&amp;url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FEventual_consistency&amp;usg=AOvVaw0DHqhPsspV7JLvL38t1Wjs">Wikipedia</a>).</p>
+<p>So, lets create a system with some microservices. The <a class="reference external" href="https://c4model.com/">Container Diagram</a> looks like this:</p>
+<p>It is a simple API with a bunch of REST endpoints so we are able to create orders and retrieve processed orders. When orders are posted, they will be queued and processed by a worker, the worker has an artificial delay of 5 seconds so it acts like a long running process. When we want to create an automated test we could write a specification like this:</p>
+<div class="highlight-gherkin notranslate"><div class="highlight"><pre><span></span><span class="k">Feature:</span><span class="nf"> Processing New Orders</span>
+<span class="nf">  As an order entry clerk</span>
+<span class="nf">  I want to send orders to the ordering system</span>
+<span class="nf">  So the system can process the orders for the order pickers</span>
+
+<span class="nf">  </span><span class="k">Scenario:</span><span class="nf"> Unprocessed orders will be queued and processed</span>
+<span class="k">    Given </span><span class="nf">the user has these unprocessed orders</span>
+<span class="k">      |</span><span class="s"> CustomerId</span><span class="k"> |</span><span class="s"> ProductID</span><span class="k"> |</span><span class="s"> Amount</span><span class="k"> |</span><span class="nf"></span>
+<span class="k">      |</span><span class="s"> 1</span><span class="k">          |</span><span class="s"> 1</span><span class="k">         |</span><span class="s"> 10</span><span class="k">     |</span><span class="nf"></span>
+<span class="k">      |</span><span class="s"> 1</span><span class="k">          |</span><span class="s"> 2</span><span class="k">         |</span><span class="s"> 5</span><span class="k">      |</span><span class="nf"></span>
+<span class="k">      |</span><span class="s"> 1</span><span class="k">          |</span><span class="s"> 3</span><span class="k">         |</span><span class="s"> 7</span><span class="k">      |</span><span class="nf"></span>
+<span class="k">      |</span><span class="s"> 1</span><span class="k">          |</span><span class="s"> 4</span><span class="k">         |</span><span class="s"> 50</span><span class="k">     |</span><span class="nf"></span>
+<span class="nf">    </span><span class="k">When </span><span class="nf">he sends this orders to the api</span>
+<span class="nf">    </span><span class="k">Then </span><span class="nf">the orders will be processed and added to the database</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="implementation">
+<h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h1>
+<p>Before we run the tests we want to make sure all orders for the customer are removed. Since we are testing against a testing environment this shouldn’t be a problem.</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="na">[BeforeScenario]</span>
+<span class="k">public</span> <span class="k">async</span> <span class="n">Task</span> <span class="nf">SetupTestUsers</span><span class="p">()</span> <span class="p">=&gt;</span>
+    <span class="k">await</span> <span class="n">_api</span><span class="p">.</span><span class="n">DeleteOrdersForCustomer</span><span class="p">(</span><span class="n">customerId</span><span class="p">:</span> <span class="m">1</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>By using <a class="reference external" href="https://github.com/App-vNext/Polly">Polly</a> we can catch exeptions of a specific type. In this case, we catch exceptions of the type <code class="docutils literal notranslate"><span class="pre">XUnitException</span></code> because this is the type that will be thrown when the assert fails. When Polly catches an exception it will retry a number of times, while it waits for some time in between te retries. This way it is possible to create a test that verifies a few times if the orders are processed without specifying an exact duration.</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="na">[Then(&quot;the orders will be processed and added to the database&quot;)]</span>
+<span class="k">public</span> <span class="k">async</span> <span class="n">Task</span> <span class="nf">ThenTheOrdersWillBeProcessedAndAddedToTheDatabase</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">newOrders</span> <span class="p">=</span> <span class="n">_scenarioContext</span><span class="p">.</span><span class="n">Get</span><span class="p">&lt;</span><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">Order</span><span class="p">&gt;&gt;(</span><span class="s">&quot;ORDERS&quot;</span><span class="p">);</span>
+    <span class="kt">var</span> <span class="n">retry</span> <span class="p">=</span> <span class="n">Policy</span>
+        <span class="p">.</span><span class="n">Handle</span><span class="p">&lt;</span><span class="n">XunitException</span><span class="p">&gt;()</span>
+    	<span class="p">.</span><span class="n">WaitAndRetryAsync</span><span class="p">(</span><span class="m">3</span><span class="p">,</span> <span class="n">retryAttempt</span> <span class="p">=&gt;</span> <span class="n">TimeSpan</span><span class="p">.</span><span class="n">FromSeconds</span><span class="p">(</span><span class="m">3</span><span class="p">),</span> <span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="n">timeSpan</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="p">=&gt;</span> 
+        <span class="p">{</span>
+	        <span class="c1">// NOTHING TO DO HERE, JUST WAIT</span>
+	    <span class="p">});</span>
+
+    <span class="k">await</span> <span class="n">retry</span><span class="p">.</span><span class="n">ExecuteAsync</span><span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="p">=&gt;</span>
+    <span class="p">{</span>
+	<span class="kt">var</span> <span class="n">processedOrders</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_api</span><span class="p">.</span><span class="n">GetAllOrders</span><span class="p">();</span>
+	<span class="n">processedOrders</span><span class="p">.</span><span class="n">Count</span><span class="p">().</span><span class="n">Should</span><span class="p">().</span><span class="n">Be</span><span class="p">(</span><span class="n">newOrders</span><span class="p">.</span><span class="n">Count</span><span class="p">());</span> 
+    <span class="p">});</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Check the full implementation on <a class="reference external" href="https://github.com/jacobduijzer/SpecflowEventualConsistency/blob/main/src/SpecflowEventualConsistency.Specs/ProcessNewOrdersSteps.cs">GitHub</a>.</p>
+</div>
+<div class="section" id="report">
+<h1>Report<a class="headerlink" href="#report" title="Permalink to this headline">¶</a></h1>
+<p><img alt="SpecFlow report" src="../../../../_images/specflow_report.png" /></p>
+<p>You can get the full project on <a class="reference external" href="https://github.com/jacobduijzer/SpecflowEventualConsistency">GitHub</a>.</p>
+</div>
+
+<div class="section">
+     
+<div class="section">
+  <span style="float: left">
+     
+    <a href="../../2019/arrowhead-antipattern-challenge/index.html">
+      <i class="fa fa-arrow-circle-left"></i> Arrowhead anti-pattern challenge
+    </a>
+    
+  </span>
+  <span>&nbsp;</span>
+  <span style="float: right">
+    
+  </span>
+</div>
+  
+  <div class="section">
+    <h2>Comments</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      var disqus_shortname = "blog-duijzer-com";
+      var disqus_identifier = "/content/articles/2021/specflow/";
+      var disqus_title = "Specflow and Eventual Consistency";
+      var disqus_url = "https://duijzer.com/content/articles/2021/specflow/";
+
+      (function () {
+        var dsq = document.createElement("script");
+        dsq.type = "text/javascript";
+        dsq.async = true;
+        dsq.src = "//" + disqus_shortname + ".disqus.com/embed.js";
+        (
+          document.getElementsByTagName("head")[0] ||
+          document.getElementsByTagName("body")[0]
+        ).appendChild(dsq);
+      })();
+    </script>
+    <noscript
+      >Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript"
+        >comments powered by Disqus.</a
+      ></noscript
+    >
+    <a href="https://disqus.com" class="dsq-brlink"
+      >comments powered by <span class="logo-disqus">Disqus</span></a
+    >
+  </div>
+  
+</div>
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, Jacob Duijzer.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>
