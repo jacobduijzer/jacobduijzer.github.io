@@ -6,3 +6,4 @@ ablog==0.10.19
 sphinxcontrib-plantuml==0.21
 sphinx-markdown-tables==0.0.15
 sphinxcontrib-openapi==0.7.0
+pydata_sphinx_theme==0.6.3
