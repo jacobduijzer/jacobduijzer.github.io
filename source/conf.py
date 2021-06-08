@@ -20,7 +20,8 @@ extensions = [
     'myst_parser',
     'sphinx_panels',
     'sphinxcontrib.plantuml',
-    'ablog'
+    'ablog',
+    'pydata_sphinx_theme'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
