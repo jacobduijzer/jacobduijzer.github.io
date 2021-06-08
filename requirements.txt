@@ -1,8 +1,8 @@
-Sphinx==3.5.4'
-sphinx-autobuild==2021.3.14'
-myst-parser==0.13.7'
-sphinx_panels==0.5.2' 
-ablog==0.10.19' 
-sphinxcontrib-plantuml==0.21' 
-sphinx-markdown-tables==0.0.15' 
-sphinxcontrib-openapi==0.7.0' 
+Sphinx==3.5.4
+sphinx-autobuild==2021.3.14
+myst-parser==0.13.7
+sphinx_panels==0.5.2
+ablog==0.10.19
+sphinxcontrib-plantuml==0.21
+sphinx-markdown-tables==0.0.15
+sphinxcontrib-openapi==0.7.0
