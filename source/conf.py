@@ -67,9 +67,7 @@ html_static_path = ['_static']
 
 ### plantuml 
 
-sourceLocation = os.getcwd()
-plantuml = 'java -jar ' + sourceLocation + '/../plantuml.jar'
-# plantuml = '/usr/bin/plantuml'
+plantuml = 'java -jar "/usr/local/bin/plantuml.jar" -I/usr/src/plantuml/*'
 plantuml_output_format = 'svg'
 
 def setup(app):
