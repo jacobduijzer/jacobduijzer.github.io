@@ -5,10 +5,6 @@ jobs:
     name: Push Sphinx Pages
     runs-on: ubuntu-latest
     steps:
-    - name: Install plantuml
-      run: sudo apt-get install -y plantuml
-    - name: get plantuml location
-      run: which plantuml
     - uses: seanzhengw/sphinx-pages@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
