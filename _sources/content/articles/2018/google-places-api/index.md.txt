@@ -2,7 +2,7 @@
 author: Jacob Duijzer
 date: 2018-09-03
 tags: Google Places API, nuget, Google Places, Xamarin Forms, Xamarin, Plugin
-categories: Xamarin, Nuget, Plugin
+category: Xamarin
 redirect: posts/google-places-api/index 
 ---
 

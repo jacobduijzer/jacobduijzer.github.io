@@ -2,7 +2,7 @@
 author: Jacob Duijzer
 date: 2019-03-07
 tags: DDD, validation, async, Domain Driven Design
-categories: csharp, dotnet, DDD
+category: design
 redirect: posts/async-model-validation/index 
 ---
 

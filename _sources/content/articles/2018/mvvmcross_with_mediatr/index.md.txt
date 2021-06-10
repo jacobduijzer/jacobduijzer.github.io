@@ -1,8 +1,8 @@
 ---
 author: Jacob Duijzer
 date: 2018-08-07
-tags: MvvmCross,MediatR,CQRS,Clean Architecture, Xamarin, Xamarin Forms
-categories: Xamarin,Architecture
+tags: MvvmCross, MediatR, CQRS, Clean Architecture, Xamarin, Xamarin Forms
+category: Xamarin
 redirect: posts/mvvmcross_with_mediatr/index 
 ---
 

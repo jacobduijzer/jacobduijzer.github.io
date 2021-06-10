@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <id>https://duijzer.com</id>
   <title>Jacobs Weblog</title>
-  <updated>2021-06-08T13:13:15.804946+00:00</updated>
+  <updated>2021-06-10T18:10:08.736873+00:00</updated>
   <link href="https://duijzer.com"/>
   <link href="https://duijzer.com/content/blog/atom.xml" rel="self"/>
   <generator uri="https://ablog.readthedocs.org/" version="0.10.19">ABlog</generator>
@@ -98,6 +98,50 @@
     <published>2019-03-07T00:00:00+00:00</published>
   </entry>
   <entry>
+    <id>https://duijzer.com/content/articles/2019/things-i-learned-this-week-1/index.html</id>
+    <title>Things I Learned This Week - #1</title>
+    <updated>2019-04-04T00:00:00+00:00</updated>
+    <author>
+      <name>Jacob Duijzer</name>
+    </author>
+    <content type="html">&lt;p&gt;My plan was to write a quick post about some cool things I found and learned this week but I just learned too much (as I do every week). Below are just the highlights, I will try and write more posts like this, especially if I get some cool comments :)&lt;/p&gt;
+</content>
+    <link href="https://duijzer.com/content/articles/2019/things-i-learned-this-week-1/index.html" rel="alternate"/>
+    <summary>My plan was to write a quick post about some cool things I found and learned this week but I just learned too much (as I do every week). Below are just the highlights, I will try and write more posts like this, especially if I get some cool comments :)</summary>
+    <category term="isualStudio" label="isual Studio"/>
+    <category term="VisualStudioforMac" label="Visual Studio for Mac"/>
+    <category term="VisualStudioCode" label="Visual Studio Code"/>
+    <category term="TFS" label="TFS"/>
+    <category term="UnitTesting" label="Unit Testing"/>
+    <category term="Learnings" label="Learnings"/>
+    <category term="RESTClient" label="REST Client"/>
+    <category term="REST" label="REST"/>
+    <category term="Core" label="Core"/>
+    <category term="NETCore" label="NET Core"/>
+    <published>2019-04-04T00:00:00+00:00</published>
+  </entry>
+  <entry>
+    <id>https://duijzer.com/content/articles/2019/polly-refit/index.html</id>
+    <title>Retry and fallback policies in C# with Polly</title>
+    <updated>2019-04-18T00:00:00+00:00</updated>
+    <author>
+      <name>Jacob Duijzer</name>
+    </author>
+    <content type="html">&lt;p&gt;In this blog I will try to explain how one can create clean and effective policies to retry API calls and have fallbacks when requests are failing. With &lt;a class="reference external" href="https://github.com/App-vNext/Polly"&gt;Polly&lt;/a&gt; it is possible to create complex and advanced scenarios for error handling with just a few lines of code.&lt;/p&gt;
+</content>
+    <link href="https://duijzer.com/content/articles/2019/polly-refit/index.html" rel="alternate"/>
+    <summary>In this blog I will try to explain how one can create clean and effective policies to retry API calls and have fallbacks when requests are failing. With Polly it is possible to create complex and advanced scenarios for error handling with just a few lines of code.</summary>
+    <category term="Polly" label="Polly"/>
+    <category term="Retry" label="Retry"/>
+    <category term="Refit" label="Refit"/>
+    <category term="Unit-Testing" label="Unit-Testing"/>
+    <category term="API" label="API"/>
+    <category term="REST" label="REST"/>
+    <category term="csharp" label="csharp"/>
+    <category term="dotnet" label="dotnet"/>
+    <published>2019-04-18T00:00:00+00:00</published>
+  </entry>
+  <entry>
     <id>https://duijzer.com/content/articles/2019/arrowhead-antipattern-challenge/index.html</id>
     <title>Arrowhead anti-pattern challenge</title>
     <updated>2019-11-07T00:00:00+00:00</updated>
@@ -121,10 +165,10 @@
     <author>
       <name>Jacob Duijzer</name>
     </author>
-    <content type="html">&lt;p&gt;&lt;a class="reference external" href="https://specflow.org/"&gt;SpecFlow&lt;/a&gt; is a tool which can be used to describe test scenarios and automate the tests. Although I have been using SpecFlow for a while now I never used it for advanced examples where time might be an issue. Lets show a simple example scenario first. A scenario, written in &lt;a class="reference external" href="https://cucumber.io/docs/gherkin/reference/"&gt;Gherkin&lt;/a&gt;, looks like this:&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;a class="reference internal" href="glossary.html#term-SpecFlow"&gt;&lt;span class="xref std std-term"&gt;SpecFlow&lt;/span&gt;&lt;/a&gt; is a tool which can be used to describe test scenarios and automate the tests. Although I have been using SpecFlow for a while now I never used it for advanced examples where time might be an issue. Lets show a simple example scenario first. A scenario, written in &lt;a class="reference internal" href="glossary.html#term-Gherkin"&gt;&lt;span class="xref std std-term"&gt;Gherkin&lt;/span&gt;&lt;/a&gt; looks like this:&lt;/p&gt;
 </content>
     <link href="https://duijzer.com/content/articles/2021/specflow/index.html" rel="alternate"/>
-    <summary>SpecFlow is a tool which can be used to describe test scenarios and automate the tests. Although I have been using SpecFlow for a while now I never used it for advanced examples where time might be an issue. Lets show a simple example scenario first. A scenario, written in Gherkin, looks like this:</summary>
+    <summary>SpecFlow is a tool which can be used to describe test scenarios and automate the tests. Although I have been using SpecFlow for a while now I never used it for advanced examples where time might be an issue. Lets show a simple example scenario first. A scenario, written in Gherkin looks like this:</summary>
     <category term="specflow" label="specflow"/>
     <category term="behaviourdrivendevelopment" label="behaviour driven development"/>
     <category term="bdd" label="bdd"/>

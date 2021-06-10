@@ -2,7 +2,7 @@
 author: Jacob Duijzer
 date: 2019-11-07
 tags: csharp, dotnet, validation, anti-pattern
-categories: csharp, dotnet, solid, architecture
+category: design
 redirect: posts/arrowhead-antipattern-challenge//index 
 ---
 
@@ -14,8 +14,8 @@ While it was nothing new, I never knew it was called arrowhead anti-pattern (or 
 
 There might be more than one solution to solve this problem and I was wondering if my colleagues could help me out so I wrote a challenge and dropped into our developers Slack channel.
 
-```{note} 8 November 2019: added a [bonus](#bonus-anchor) contribution from Bob, written in prolog 
-
+```{admonition} Update 8 November 2019
+added a [bonus](#bonus-anchor) contribution from Bob, written in prolog 
 ```
 
 # The Clean and Solid Challenge

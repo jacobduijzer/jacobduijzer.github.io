@@ -1,0 +1,994 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Retry and fallback policies in C# with Polly &#8212;   documentation</title>
+    
+  <link href="../../../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../../../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+     
+<link
+  rel="alternate"
+  type="application/atom+xml"
+  href="../../../blog/atom.xml"
+  title="Jacobs Weblog"
+/>
+ 
+<style type="text/css">
+  ul.ablog-archive {
+    list-style: none;
+    overflow: auto;
+    margin-left: 0px;
+  }
+  ul.ablog-archive li {
+    float: left;
+    margin-right: 5px;
+    font-size: 80%;
+  }
+  ul.postlist a {
+    font-style: italic;
+  }
+  ul.postlist-style-disc {
+    list-style-type: disc;
+  }
+  ul.postlist-style-none {
+    list-style-type: none;
+  }
+  ul.postlist-style-circle {
+    list-style-type: circle;
+  }
+</style>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+<a class="navbar-brand" href="../../../../index.html">
+<p class="title"></p>
+</a>
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../blog.html">
+  Home
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../glossary.html">
+  Glossary
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../../about.html">
+  About
+ </a>
+</li>
+
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar">
+<div class="name">
+    <a href="/">Jacobs Blog</a>
+</div>
+<div class="focusareas">
+.NET | TDD | Architecture  
+</div>
+<form class="bd-search d-flex align-items-center" action="/search.html" method="get">
+<i class="icon fas fa-search"></i>
+<input type="search" class="form-control" name="q" id="search-input" placeholder="Search..." aria-label="Search..." autocomplete="off">
+</form>
+
+
+ 
+	 
+	
+
+	<div class="focusareas">Post details</div>
+
+	<ul>
+		<li id="published">
+		
+			<span>
+			<i class="fa-fw fa fa-calendar"></i>
+			</span>
+
+			18 April 2019
+		
+		</li>
+
+		 
+<li id="author">
+  <span
+    ><i class="fa-fw fa fa-user"></i></span
+  >
+   
+  <a href="../../../blog/author/jacob-duijzer.html">Jacob Duijzer</a>  
+</li>
+    
+<li id="tags">
+  <span
+    ><i class="fa-fw fa fa-tags"></i> </span
+  >
+   
+  <a href="../../../blog/tag/polly.html">Polly</a>   
+  <a href="../../../blog/tag/retry.html">Retry</a>   
+  <a href="../../../blog/tag/refit.html">Refit</a>   
+  <a href="../../../blog/tag/unit-testing.html">Unit-Testing</a>   
+  <a href="../../../blog/tag/api.html">API</a>   
+  <a href="../../../blog/tag/rest.html">REST</a>   
+  <a href="../../../blog/tag/csharp.html">csharp</a>   
+  <a href="../../../blog/tag/dotnet.html">dotnet</a>  
+</li>
+ 
+<li id="comments">
+  <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = "blog-duijzer-com"; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+      var s = document.createElement("script");
+      s.async = true;
+      s.type = "text/javascript";
+      s.src = "//" + disqus_shortname + ".disqus.com/count.js";
+      (
+        document.getElementsByTagName("HEAD")[0] ||
+        document.getElementsByTagName("BODY")[0]
+      ).appendChild(s);
+    })();
+  </script>
+  <i class="fa-fw fa fa-comments"></i>
+  <a
+    href="#disqus_thread"
+    data-disqus-identifier="/content/articles/2019/polly-refit/index/"
+  >
+    </a
+  >
+</li>
+
+	</ul>
+
+<div class="focusarea">
+  <a href="../../../blog/tag.html">Tags</a>
+</div>
+<style type="text/css">
+  ul.ablog-cloud {
+    list-style: none;
+    overflow: auto;
+  }
+  ul.ablog-cloud li {
+    float: left;
+    height: 20pt;
+    line-height: 18pt;
+    margin-right: 5px;
+  }
+  ul.ablog-cloud a {
+    text-decoration: none;
+    vertical-align: middle;
+  }
+  li.ablog-cloud-1 {
+    font-size: 80%;
+  }
+  li.ablog-cloud-2 {
+    font-size: 95%;
+  }
+  li.ablog-cloud-3 {
+    font-size: 110%;
+  }
+  li.ablog-cloud-4 {
+    font-size: 125%;
+  }
+  li.ablog-cloud-5 {
+    font-size: 140%;
+  }
+</style>
+<ul class="ablog-cloud">
+     
+  <li class="ablog-cloud ablog-cloud-2">
+    <a href="../../../blog/tag/api.html">API</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/arduino.html">Arduino</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/azure-functions.html">Azure Functions</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/cms.html">CMS</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/cqrs.html">CQRS</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/clean-architecture.html">Clean Architecture</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/core.html">Core</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/ddd.html">DDD</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/domain-driven-design.html">Domain Driven Design</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/google-docs.html">Google Docs</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/google-places.html">Google Places</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/google-places-api.html">Google Places API</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/learnings.html">Learnings</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/mediatr.html">MediatR</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/mvvmcross.html">MvvmCross</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/net-core.html">NET Core</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-2">
+    <a href="../../../blog/tag/plugin.html">Plugin</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/polly.html">Polly</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-2">
+    <a href="../../../blog/tag/rest.html">REST</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/rest-client.html">REST Client</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/refit.html">Refit</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/retry.html">Retry</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/tfs.html">TFS</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/unit-testing.html">Unit Testing</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/unit-testing.html">Unit-Testing</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/visual-studio-code.html">Visual Studio Code</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/visual-studio-for-mac.html">Visual Studio for Mac</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-5">
+    <a href="../../../blog/tag/xamarin.html">Xamarin</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-3">
+    <a href="../../../blog/tag/xamarin-forms.html">Xamarin Forms</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/xamarinmac.html">Xamarin.Mac</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/anti-pattern.html">anti-pattern</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/async.html">async</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/bdd.html">bdd</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/behaviour-driven-development.html">behaviour driven development</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-2">
+    <a href="../../../blog/tag/csharp.html">csharp</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-2">
+    <a href="../../../blog/tag/dotnet.html">dotnet</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/gherkin.html">gherkin</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/isual-studio.html">isual Studio</a>
+  </li>
+      
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/nuget.html">nuget</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/polly.html">polly</a>
+  </li>
+      
+  <li class="ablog-cloud ablog-cloud-1">
+    <a href="../../../blog/tag/specflow.html">specflow</a>
+  </li>
+    
+  <li class="ablog-cloud ablog-cloud-2">
+    <a href="../../../blog/tag/validation.html">validation</a>
+  </li>
+   
+</ul>
+
+<div class="focusarea">
+  <a href="../../../blog/archive.html">Archives</a>
+</div>
+<ul>
+   
+  <li>
+    <a href="../../../blog/2021.html">2021 (1)</a>
+  </li>
+    
+  <li>
+    <a href="../../../blog/2019.html">2019 (4)</a>
+  </li>
+    
+  <li>
+    <a href="../../../blog/2018.html">2018 (4)</a>
+  </li>
+   
+</ul>
+<div class="focusareas">
+Social Networks
+</div>
+<div class="whatido">
+<a href="https://github.com/jacobduijzer" target="_blank" class="fab fa-github"></a>&nbsp;&nbsp;
+<a href="https://www.linkedin.com/in/jacobduijzer/" target="_blank" class="fab fa-linkedin-in"></a>&nbsp;&nbsp;
+<a href="https://twitter.com/jacobduijzer" target="_blank" class="fab fa-twitter"></a>
+</div>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-is-polly">
+   What is Polly?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-a-simple-api-call-can-get-way-too-complex">
+   How a simple API call can get way too complex
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#polly-to-the-rescue">
+   Polly to the rescue
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#unit-testing-with-polly-and-refit">
+   Unit testing with Polly and Refit
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#advanced-scenarios">
+   Advanced scenarios
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fallbacks">
+     Fallbacks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#circuitbreaker">
+     CircuitBreaker
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#links">
+   Links
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                 <div class="section" id="retry-and-fallback-policies-in-c-with-polly">
+<h1>Retry and fallback policies in C# with Polly</h1>
+<p>In this blog I will try to explain how one can create clean and effective policies to retry API calls and have fallbacks when requests are failing. With <a class="reference external" href="https://github.com/App-vNext/Polly">Polly</a> it is possible to create complex and advanced scenarios for error handling with just a few lines of code.</p>
+<p>This week I was connecting an eCommerce web application to an ERP system with REST APIs. There are multiple endpoints, all authenticated with OAuth. To make sure all calls to the APIs will have a high success rate I had to implement retry mechanisms for different scenarios.</p>
+<p>For this kind of scenarios there is a very cool library: <a class="reference external" href="https://github.com/App-vNext/Polly">Polly</a> which I have been using for some years now (together with <a class="reference external" href="https://github.com/reactiveui/refit">Refit</a>) and I am just deeply in love with both libraries.</p>
+<p>Although there are abundant resources about Polly on the web I wanted to write a post with a lot of sample code to provide a quick and practical example of how easy it is to use <a class="reference external" href="https://github.com/App-vNext/Polly">Polly</a> to create advanced exception handling with APIs. I am using <a class="reference external" href="https://github.com/reactiveui/refit">Refit</a> because it is quick and easy to use with REST APIs but Polly can be used with any kind of C# code.</p>
+<p>Disclaimer: this article and sample code have nothing to do with the work I did for the eCommerce website. It was just a trigger for me to write about <a class="reference external" href="https://github.com/App-vNext/Polly">Polly</a>. Also, the shown code might not always show the best way to implementat things, it is just an example to explain some use cases of <a class="reference external" href="https://github.com/App-vNext/Polly">Polly</a>.</p>
+<div class="section" id="what-is-polly">
+<h2>What is Polly?</h2>
+<p>From the <a class="reference external" href="https://github.com/App-vNext/Polly">Polly repository</a>: Polly is a .NET resilience and transient-fault-handling library that allows developers to express policies such as Retry, Circuit Breaker, Timeout, Bulkhead Isolation, and Fallback in a fluent and thread-safe manner.</p>
+</div>
+<div class="section" id="how-a-simple-api-call-can-get-way-too-complex">
+<h2>How a simple API call can get way too complex</h2>
+<p>Let’s say I have a micro service with an API endpoint to retrieve products:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">class</span> <span class="nc">ProductService</span> <span class="p">:</span> <span class="n">IProductService</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="k">readonly</span> <span class="n">IProductsApi</span> <span class="n">_productsApi</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="nf">ProductService</span><span class="p">(</span><span class="n">IProductsApi</span> <span class="n">productsApi</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="n">_productsApi</span> <span class="p">=</span> <span class="n">productsApi</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">Product</span><span class="p">&gt;</span> <span class="n">GetProducts</span><span class="p">()</span> <span class="p">=&gt;</span>
+        <span class="k">await</span> <span class="n">_productsApi</span>
+        <span class="p">.</span><span class="n">GetProducts</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Could everything just be as simple as that. When you use code like this in a production environment you will quickly find out that there is a need of exception handling. And, even better, a mechanism to do some retries before throwing an exception.</p>
+<p>So, let’s add some simple retry (this is kind of pseudo-code, just for demonstration purpose):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">public</span> <span class="k">async</span> <span class="n">Task</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Product</span><span class="o">&gt;&gt;</span> <span class="n">GetProducts</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nb">int</span> <span class="n">tryCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">tryCount</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">try</span>
+        <span class="p">{</span>
+            <span class="n">tryCount</span><span class="o">++</span><span class="p">;</span>
+            <span class="k">return</span> <span class="k">await</span> <span class="n">GetProductsAsync</span><span class="p">()</span><span class="o">.</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="n">false</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">catch</span> <span class="p">(</span><span class="n">System</span><span class="o">.</span><span class="n">Exception</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">await</span> <span class="n">Task</span><span class="o">.</span><span class="n">Delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="n">throw</span> <span class="n">new</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Something went wrong&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">private</span> <span class="k">async</span> <span class="n">Task</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Product</span><span class="o">&gt;&gt;</span> <span class="n">GetProductsAsync</span><span class="p">()</span> <span class="o">=&gt;</span>
+    <span class="k">await</span> <span class="n">_productsApi</span><span class="o">.</span><span class="n">GetProductsAsync</span><span class="p">()</span><span class="o">.</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="n">false</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Although it is not the most beautiful code, it might actually work for you. But the next problem arises: the API is going to be protected with OAuth so we have to get an access token from another endpoint and provide a bearer token to be able to retrieve products. This will add quite a few extra scenarios where things can go wrong, the most commonly be timeouts and expiration of tokens.</p>
+<p>Let’s work on another revision of the code to add extra retries for these scenarios:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">List</span><span class="p">&lt;</span><span class="n">Product</span><span class="p">&gt;&gt;</span> <span class="n">GetProducts</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">_authenticationResult</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+        <span class="n">_authenticationResult</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_authenticationService</span><span class="p">.</span><span class="n">GetAccessToken</span><span class="p">().</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+
+    <span class="kt">int</span> <span class="n">tryCount</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">tryCount</span> <span class="p">&lt;</span> <span class="m">3</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">try</span>
+        <span class="p">{</span>
+            <span class="n">tryCount</span><span class="p">++;</span>
+            <span class="k">return</span> <span class="k">await</span> <span class="nf">GetProductsAsync</span><span class="p">(</span><span class="n">_authenticationResult</span><span class="p">.</span><span class="n">access_token</span><span class="p">).</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">catch</span> <span class="p">(</span><span class="n">ApiException</span> <span class="n">ex</span><span class="p">)</span>
+        <span class="p">{</span> 
+            <span class="k">switch</span><span class="p">(</span><span class="n">ex</span><span class="p">.</span><span class="n">StatusCode</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="k">case</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">RequestTimeout</span><span class="p">:</span>
+                    <span class="k">await</span> <span class="n">Task</span><span class="p">.</span><span class="n">Delay</span><span class="p">(</span><span class="m">500</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="k">case</span> <span class="n">System</span><span class="p">.</span><span class="n">Net</span><span class="p">.</span><span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">Unauthorized</span><span class="p">:</span>
+                    <span class="n">_authenticationResult</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_authenticationService</span><span class="p">.</span><span class="n">GetAccessToken</span><span class="p">().</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+            
+        <span class="p">}</span>
+        <span class="k">catch</span><span class="p">(</span><span class="n">Exception</span> <span class="n">ex</span><span class="p">)</span>
+        <span class="p">{</span>
+
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">Exception</span><span class="p">(</span><span class="s">&quot;Something went wrong&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">List</span><span class="p">&lt;</span><span class="n">Product</span><span class="p">&gt;&gt;</span> <span class="n">GetProductsAsync</span><span class="p">(</span><span class="kt">string</span> <span class="n">accessToken</span><span class="p">)</span> <span class="p">=&gt;</span>
+    <span class="k">await</span> <span class="n">_productsApi</span><span class="p">.</span><span class="n">GetProductsAsync</span><span class="p">(</span><span class="n">accessToken</span><span class="p">).</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>I am going to stop right here. I should add another retry around the retrieval of the access token, handle more cases in the switch statement, in short, this simple API is becoming an unmaintainable mess.</p>
+</div>
+<div class="section" id="polly-to-the-rescue">
+<h2>Polly to the rescue</h2>
+<p>Let’s try and implement the same scenario in a more clean and maintainable way by using Polly!</p>
+<p>First, a simple version:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">class</span> <span class="nc">ProductService</span> <span class="p">:</span> <span class="n">IProductService</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="k">readonly</span> <span class="n">IProductsApi</span> <span class="n">_productsApi</span><span class="p">;</span>
+    <span class="k">private</span> <span class="k">readonly</span> <span class="n">IAuthenticationService</span> <span class="n">_authenticationService</span><span class="p">;</span>
+
+    <span class="k">private</span> <span class="n">AuthenticationResult</span> <span class="n">_authenticationResult</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="nf">ProductService</span><span class="p">(</span><span class="n">IProductsApi</span> <span class="n">productsApi</span><span class="p">,</span> <span class="n">IAuthenticationService</span> <span class="n">authenticationService</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_productsApi</span> <span class="p">=</span> <span class="n">productsApi</span><span class="p">;</span>
+        <span class="n">_authenticationService</span> <span class="p">=</span> <span class="n">authenticationService</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="k">static</span> <span class="k">readonly</span> <span class="kt">int</span> <span class="n">NUMBER_OF_RETRIES</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">List</span><span class="p">&lt;</span><span class="n">Product</span><span class="p">&gt;&gt;</span> <span class="n">GetProducts</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">_authenticationResult</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+            <span class="n">_authenticationResult</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_authenticationService</span><span class="p">.</span><span class="n">GetAccessToken</span><span class="p">().</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+
+        <span class="k">return</span> <span class="k">await</span> <span class="n">Policy</span>
+            <span class="p">.</span><span class="n">Handle</span><span class="p">&lt;</span><span class="n">Exception</span><span class="p">&gt;()</span>
+            <span class="p">.</span><span class="n">RetryAsync</span><span class="p">(</span><span class="n">NUMBER_OF_RETRIES</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">ExecuteAsync</span><span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="k">await</span> <span class="n">_productsApi</span><span class="p">.</span><span class="n">GetProductsAsync</span><span class="p">(</span><span class="n">_authenticationResult</span><span class="p">.</span><span class="n">access_token</span><span class="p">))</span>
+            <span class="p">.</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The code is simple, it hardly needs further explanation. It will authenticate first (the authentication service itself will also use Polly) and try to get products. It will retry for a number of time when receiving any exception. While this is not a complete solution it can already handle some issues.</p>
+<p>Let’s extend it a bit. I want to add a delay when I receive a timeout. Maybe the API is spinning up, rebooting or there might be a network issue:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="k">await</span> <span class="n">Policy</span>
+    <span class="c1">// When recieving a ApiException with status code 408</span>
+    <span class="p">.</span><span class="n">Handle</span><span class="p">&lt;</span><span class="n">ApiException</span><span class="p">&gt;(</span><span class="n">ex</span> <span class="p">=&gt;</span> <span class="n">ex</span><span class="p">.</span><span class="n">StatusCode</span> <span class="p">==</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">RequestTimeout</span><span class="p">)</span>
+    <span class="c1">// Retry NUMBER_OF_TIMES but execute some code before retrying</span>
+    <span class="p">.</span><span class="n">RetryAsync</span><span class="p">(</span><span class="n">NUMBER_OF_RETRIES</span><span class="p">,</span> <span class="k">async</span> <span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="n">retryCount</span><span class="p">)</span> <span class="p">=&gt;</span>
+    <span class="p">{</span>
+        <span class="c1">// wait a while</span>
+        <span class="k">await</span> <span class="n">Task</span><span class="p">.</span><span class="n">Delay</span><span class="p">(</span><span class="m">300</span><span class="p">).</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+    <span class="p">})</span>
+    <span class="c1">// execute the command</span>
+    <span class="p">.</span><span class="n">ExecuteAsync</span><span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="k">await</span> <span class="n">_productsApi</span><span class="p">.</span><span class="n">GetProductsAsync</span><span class="p">(</span><span class="n">_authenticationResult</span><span class="p">.</span><span class="n">access_token</span><span class="p">))</span>
+    <span class="p">.</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>But what if the API throws an exception because my access token is expired? This will be a different type of exception and it will also need a different solution to solve the problem. Polly is able to wrap different policies to handle different scenarios:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">List</span><span class="p">&lt;</span><span class="n">Product</span><span class="p">&gt;&gt;</span> <span class="n">GetProducts</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">_authenticationResult</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+        <span class="n">_authenticationResult</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_authenticationService</span><span class="p">.</span><span class="n">GetAccessToken</span><span class="p">().</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+
+    <span class="kt">var</span> <span class="n">unauthorizedPolicy</span> <span class="p">=</span> <span class="n">Policy</span>
+        <span class="p">.</span><span class="n">Handle</span><span class="p">&lt;</span><span class="n">ApiException</span><span class="p">&gt;(</span><span class="n">ex</span> <span class="p">=&gt;</span> <span class="n">ex</span><span class="p">.</span><span class="n">StatusCode</span> <span class="p">==</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">Unauthorized</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">RetryAsync</span><span class="p">(</span><span class="k">async</span> <span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="n">retryCount</span><span class="p">)</span> <span class="p">=&gt;</span>
+        <span class="p">{</span>
+            <span class="n">_authenticationResult</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_authenticationService</span><span class="p">.</span><span class="n">GetAccessToken</span><span class="p">().</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+        <span class="p">});</span>
+
+    <span class="kt">var</span> <span class="n">timeoutPolicy</span> <span class="p">=</span> <span class="n">Policy</span>
+        <span class="p">.</span><span class="n">Handle</span><span class="p">&lt;</span><span class="n">ApiException</span><span class="p">&gt;(</span><span class="n">ex</span> <span class="p">=&gt;</span> <span class="n">ex</span><span class="p">.</span><span class="n">StatusCode</span> <span class="p">==</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">RequestTimeout</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">RetryAsync</span><span class="p">(</span><span class="n">NUMBER_OF_RETRIES</span><span class="p">,</span> <span class="k">async</span> <span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="n">retryCount</span><span class="p">)</span> <span class="p">=&gt;</span> 
+            <span class="k">await</span> <span class="n">Task</span><span class="p">.</span><span class="n">Delay</span><span class="p">(</span><span class="m">300</span><span class="p">).</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">));</span>
+
+    <span class="k">return</span> <span class="k">await</span> <span class="n">unauthorizedPolicy</span>
+        <span class="p">.</span><span class="n">WrapAsync</span><span class="p">(</span><span class="n">timeoutPolicy</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">ExecuteAsync</span><span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="k">await</span> <span class="n">_productsApi</span><span class="p">.</span><span class="n">GetProductsAsync</span><span class="p">(</span><span class="n">_authenticationResult</span><span class="p">.</span><span class="n">access_token</span><span class="p">))</span>
+        <span class="p">.</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>While this is not the way I would structure my code in a real app, I believe this is understandable and maintainable code. But how can we verify all these scenarios work? How can one simulate all the scenarios at a time to verify the behavior of all policies?</p>
+</div>
+<div class="section" id="unit-testing-with-polly-and-refit">
+<h2>Unit testing with Polly and Refit</h2>
+<p>This brings us to unit testing. Too me, this is one of the most important (and fun) parts. I do like writing unit tests but especially when programming difficult scenarios with APIs and policies.</p>
+<p>Imagine this: I want a retry on the authentication api but only when I receive a RequestTimeout (Http status code 408). This will be my full AuthenticationService:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="k">class</span> <span class="nc">AuthenticationService</span> <span class="p">:</span> <span class="n">IAuthenticationService</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="k">static</span> <span class="k">readonly</span> <span class="kt">int</span> <span class="n">NUMBER_OF_RETRIES</span> <span class="p">=</span> <span class="m">3</span><span class="p">;</span>
+
+    <span class="k">private</span> <span class="k">readonly</span> <span class="n">IAuthenticationApi</span> <span class="n">_authenticationApi</span><span class="p">;</span>
+    <span class="k">private</span> <span class="k">readonly</span> <span class="kt">string</span> <span class="n">_clientId</span><span class="p">;</span>
+    <span class="k">private</span> <span class="k">readonly</span> <span class="kt">string</span> <span class="n">_clientSecret</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="nf">AuthenticationService</span><span class="p">(</span>
+        <span class="n">IAuthenticationApi</span> <span class="n">authenticationApi</span><span class="p">,</span>
+        <span class="kt">string</span> <span class="n">clientId</span><span class="p">,</span>
+        <span class="kt">string</span> <span class="n">clientSecret</span>
+        <span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">Guard</span><span class="p">.</span><span class="n">Against</span><span class="p">.</span><span class="n">Null</span><span class="p">(</span><span class="n">authenticationApi</span><span class="p">,</span> <span class="n">nameof</span><span class="p">(</span><span class="n">authenticationApi</span><span class="p">));</span>
+        <span class="n">Guard</span><span class="p">.</span><span class="n">Against</span><span class="p">.</span><span class="n">NullOrEmpty</span><span class="p">(</span><span class="n">clientId</span><span class="p">,</span> <span class="n">nameof</span><span class="p">(</span><span class="n">clientId</span><span class="p">));</span>
+        <span class="n">Guard</span><span class="p">.</span><span class="n">Against</span><span class="p">.</span><span class="n">NullOrEmpty</span><span class="p">(</span><span class="n">clientSecret</span><span class="p">,</span> <span class="n">nameof</span><span class="p">(</span><span class="n">clientSecret</span><span class="p">));</span>
+
+        <span class="n">_authenticationApi</span> <span class="p">=</span> <span class="n">authenticationApi</span><span class="p">;</span>
+        <span class="n">_clientId</span> <span class="p">=</span> <span class="n">clientId</span><span class="p">;</span>
+        <span class="n">_clientSecret</span> <span class="p">=</span> <span class="n">clientSecret</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">AuthenticationResult</span><span class="p">&gt;</span> <span class="n">GetAccessToken</span><span class="p">()</span> <span class="p">=&gt;</span>
+        <span class="k">await</span> <span class="n">Policy</span>
+            <span class="p">.</span><span class="n">Handle</span><span class="p">&lt;</span><span class="n">ApiException</span><span class="p">&gt;(</span><span class="n">ex</span> <span class="p">=&gt;</span> <span class="n">ex</span><span class="p">.</span><span class="n">StatusCode</span> <span class="p">==</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">RequestTimeout</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">RetryAsync</span><span class="p">(</span><span class="n">NUMBER_OF_RETRIES</span><span class="p">,</span> <span class="k">async</span> <span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="n">retryCount</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="k">await</span> <span class="n">Task</span><span class="p">.</span><span class="n">Delay</span><span class="p">(</span><span class="m">500</span><span class="p">))</span>
+            <span class="p">.</span><span class="n">ExecuteAsync</span><span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="k">await</span> <span class="n">_authenticationApi</span><span class="p">.</span><span class="n">GetAccessToken</span><span class="p">(</span><span class="n">_clientId</span><span class="p">,</span> <span class="n">_clientSecret</span><span class="p">).</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">))</span>
+            <span class="p">.</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+<span class="p">}</span> 
+</pre></div>
+</div>
+<p>Now I can test the behavior with Moq to mock the API:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="na">[Fact]</span>
+<span class="k">public</span> <span class="k">async</span> <span class="n">Task</span> <span class="nf">RetryWhenReceivingTimeout</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">// ARRANGE</span>
+    <span class="kt">var</span> <span class="n">mockApi</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Mock</span><span class="p">&lt;</span><span class="n">IAuthenticationApi</span><span class="p">&gt;(</span><span class="n">MockBehavior</span><span class="p">.</span><span class="n">Strict</span><span class="p">);</span>
+    <span class="n">mockApi</span><span class="p">.</span><span class="n">SetupSequence</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">GetAccessToken</span><span class="p">(</span><span class="n">CORRECT_CLIENT_ID</span><span class="p">,</span> <span class="n">CORRECT_CLIENT_SECRET</span><span class="p">))</span>
+        <span class="p">.</span><span class="n">Throws</span><span class="p">(</span><span class="n">TestHelper</span><span class="p">.</span><span class="n">CreateRefitException</span><span class="p">(</span><span class="n">HttpMethod</span><span class="p">.</span><span class="n">Post</span><span class="p">,</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">RequestTimeout</span><span class="p">))</span>
+        <span class="p">.</span><span class="n">Throws</span><span class="p">(</span><span class="n">TestHelper</span><span class="p">.</span><span class="n">CreateRefitException</span><span class="p">(</span><span class="n">HttpMethod</span><span class="p">.</span><span class="n">Post</span><span class="p">,</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">RequestTimeout</span><span class="p">))</span>
+        <span class="p">.</span><span class="n">ReturnsAsync</span><span class="p">(</span><span class="k">new</span> <span class="n">AuthenticationResult</span> <span class="p">{</span> <span class="n">access_token</span> <span class="p">=</span> <span class="n">TEST_ACCESS_TOKEN</span> <span class="p">});</span>
+
+    <span class="kt">var</span> <span class="n">service</span> <span class="p">=</span> <span class="k">new</span> <span class="n">AuthenticationService</span><span class="p">(</span><span class="n">mockApi</span><span class="p">.</span><span class="n">Object</span><span class="p">,</span> <span class="n">CORRECT_CLIENT_ID</span><span class="p">,</span> <span class="n">CORRECT_CLIENT_SECRET</span><span class="p">);</span>
+
+    <span class="c1">// ACT</span>
+    <span class="kt">var</span> <span class="n">authResult</span> <span class="p">=</span> <span class="k">await</span> <span class="n">service</span><span class="p">.</span><span class="n">GetAccessToken</span><span class="p">().</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+
+    <span class="c1">// ASSERT</span>
+    <span class="n">authResult</span><span class="p">.</span><span class="n">Should</span><span class="p">().</span><span class="n">NotBeNull</span><span class="p">();</span>
+    <span class="n">authResult</span><span class="p">.</span><span class="n">access_token</span><span class="p">.</span><span class="n">Should</span><span class="p">().</span><span class="n">NotBeNullOrEmpty</span><span class="p">().</span><span class="n">And</span><span class="p">.</span><span class="n">Be</span><span class="p">(</span><span class="n">TEST_ACCESS_TOKEN</span><span class="p">);</span>
+
+    <span class="c1">// The API Should have called GetAccessToken exactly 3 times: 2 times it received an exception,</span>
+    <span class="c1">// the third time a correct result</span>
+    <span class="n">mockApi</span><span class="p">.</span><span class="n">Verify</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">GetAccessToken</span><span class="p">(</span><span class="n">It</span><span class="p">.</span><span class="n">IsAny</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;(),</span> <span class="n">It</span><span class="p">.</span><span class="n">IsAny</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;()),</span> <span class="n">Times</span><span class="p">.</span><span class="n">Exactly</span><span class="p">(</span><span class="m">3</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="advanced-scenarios">
+<h2>Advanced scenarios</h2>
+<p>Let us dive a bit deeper into policies and <a class="reference external" href="https://github.com/App-vNext/Polly">Polly</a> and combine different policies (and even add two more).</p>
+<div class="section" id="fallbacks">
+<h3>Fallbacks</h3>
+<p>Let’s say I created a micro service to create orders. We do not want to loose any order because this will directly result in money loss. A simple retry will not be enough because what if the order api is offline for a longer time? I want an advanced scenario that looks like this:</p>
+<p><span class="xref myst"><img alt="Order flow" src="../../../../_images/orderflow.png" /></span></p>
+<p>I will not implement authentication in this flow but I guess you can already imagine:</p>
+<p><em>a) the flow will be much more complicated</em></p>
+<p><em>b) it will still be quite easy to implement with Polly using the example from above</em></p>
+<p>This is what the flow will look like in code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">public</span> <span class="k">async</span> <span class="n">Task</span> <span class="n">SaveOrder</span><span class="p">(</span><span class="n">Order</span> <span class="n">order</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">var</span> <span class="n">retryPolicy</span> <span class="o">=</span> <span class="n">Policy</span>
+        <span class="o">.</span><span class="n">Handle</span><span class="o">&lt;</span><span class="n">ApiException</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ex</span> <span class="o">=&gt;</span> <span class="n">ex</span><span class="o">.</span><span class="n">StatusCode</span> <span class="o">==</span> <span class="n">HttpStatusCode</span><span class="o">.</span><span class="n">RequestTimeout</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">RetryAsync</span><span class="p">(</span><span class="n">NUMBER_OF_RETRIES</span><span class="p">,</span> <span class="k">async</span> <span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="n">retryCount</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">await</span> <span class="n">Task</span><span class="o">.</span><span class="n">Delay</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span><span class="o">.</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="n">false</span><span class="p">));</span>
+
+    <span class="n">var</span> <span class="n">fallbackPolicy</span> <span class="o">=</span> <span class="n">Policy</span>
+        <span class="o">.</span><span class="n">Handle</span><span class="o">&lt;</span><span class="ne">Exception</span><span class="o">&gt;</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">FallbackAsync</span><span class="p">(</span><span class="k">async</span> <span class="p">(</span><span class="n">cancellationToken</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">await</span> <span class="n">SaveOrderInQueue</span><span class="p">(</span><span class="n">order</span><span class="p">)</span><span class="o">.</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="n">false</span><span class="p">));</span>
+
+    <span class="k">await</span> <span class="n">fallbackPolicy</span>
+        <span class="o">.</span><span class="n">WrapAsync</span><span class="p">(</span><span class="n">retryPolicy</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">ExecuteAsync</span><span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">await</span> <span class="n">_orderApi</span><span class="o">.</span><span class="n">SaveOrder</span><span class="p">(</span><span class="n">order</span><span class="p">)</span><span class="o">.</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="n">false</span><span class="p">))</span>
+        <span class="o">.</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="n">false</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">private</span> <span class="k">async</span> <span class="n">Task</span> <span class="n">SaveOrderInQueue</span><span class="p">(</span><span class="n">Order</span> <span class="n">order</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="k">await</span> <span class="n">_queueService</span><span class="o">.</span><span class="n">SaveOrder</span><span class="p">(</span><span class="n">order</span><span class="p">)</span><span class="o">.</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="n">false</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>And the unit test to test the full flow (check the repository on <a class="reference external" href="https://github.com/jacobduijzer/PollyRefitBlogCode">Github</a> to see the mock setups):</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="na">[Fact]</span>
+<span class="k">public</span> <span class="k">async</span> <span class="n">Task</span> <span class="nf">HandleFallbackOnMultipleTimeouts</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">mockOrderApi</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Mock</span><span class="p">&lt;</span><span class="n">IOrderApi</span><span class="p">&gt;(</span><span class="n">MockBehavior</span><span class="p">.</span><span class="n">Strict</span><span class="p">);</span>
+    <span class="n">mockOrderApi</span>
+        <span class="p">.</span><span class="n">SetupSequence</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">SaveOrder</span><span class="p">(</span><span class="n">It</span><span class="p">.</span><span class="n">IsAny</span><span class="p">&lt;</span><span class="n">Order</span><span class="p">&gt;()))</span>
+        <span class="p">.</span><span class="n">Throws</span><span class="p">(</span><span class="n">TestHelper</span><span class="p">.</span><span class="n">CreateRefitException</span><span class="p">(</span><span class="n">HttpMethod</span><span class="p">.</span><span class="n">Post</span><span class="p">,</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">RequestTimeout</span><span class="p">))</span>
+        <span class="p">.</span><span class="n">Throws</span><span class="p">(</span><span class="n">TestHelper</span><span class="p">.</span><span class="n">CreateRefitException</span><span class="p">(</span><span class="n">HttpMethod</span><span class="p">.</span><span class="n">Post</span><span class="p">,</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">RequestTimeout</span><span class="p">))</span>
+        <span class="p">.</span><span class="n">Throws</span><span class="p">(</span><span class="n">TestHelper</span><span class="p">.</span><span class="n">CreateRefitException</span><span class="p">(</span><span class="n">HttpMethod</span><span class="p">.</span><span class="n">Post</span><span class="p">,</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">RequestTimeout</span><span class="p">));</span>
+
+    <span class="kt">var</span> <span class="n">orderService</span> <span class="p">=</span> <span class="k">new</span> <span class="n">OrderService</span><span class="p">(</span><span class="n">mockOrderApi</span><span class="p">.</span><span class="n">Object</span><span class="p">,</span> <span class="n">_mockQueueService</span><span class="p">.</span><span class="n">Object</span><span class="p">);</span>
+
+    <span class="k">await</span> <span class="n">orderService</span><span class="p">.</span><span class="n">SaveOrder</span><span class="p">(</span><span class="n">TestHelper</span><span class="p">.</span><span class="n">CreateFakeOrder</span><span class="p">(</span><span class="m">3</span><span class="p">)).</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+
+    <span class="n">mockOrderApi</span><span class="p">.</span><span class="n">Verify</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">SaveOrder</span><span class="p">(</span><span class="n">It</span><span class="p">.</span><span class="n">IsAny</span><span class="p">&lt;</span><span class="n">Order</span><span class="p">&gt;()),</span> <span class="n">Times</span><span class="p">.</span><span class="n">Exactly</span><span class="p">(</span><span class="m">4</span><span class="p">));</span>
+    <span class="n">_mockQueueService</span><span class="p">.</span><span class="n">Verify</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">SaveOrder</span><span class="p">(</span><span class="n">It</span><span class="p">.</span><span class="n">IsAny</span><span class="p">&lt;</span><span class="n">Order</span><span class="p">&gt;()),</span> <span class="n">Times</span><span class="p">.</span><span class="n">Once</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="circuitbreaker">
+<h3>CircuitBreaker</h3>
+<p>So now we have a retry and a fallback. Can it still be improved? Yes, it can! Imagine the order api is really broken. Do we want customer to have a slower experience while retrying to reach the API although we know the last few calls have been unsuccessful? Guess not! So, let’s say hi to the circuit breaker.</p>
+<p>The <a class="reference external" href="https://github.com/App-vNext/Polly#circuit-breaker">circuit breaker</a> keeps track of the number of exceptions. It will break when the configured number of exceptions have been thrown. It will “open the circuit” for a certain amount of time which means it will not even try to execute the call but immediately throw an exception. When the configured delay time has been passed it will reset the circuit and start all over.</p>
+<p>When I first tried the circuit breaker I made a trivial mistake: I initialized the breaker on every call, resulting in a recount at every call so the circuit would never break. It is important to have the circuit working on a higher level than the call (i.e. as a singleton or in the constructor of the service, this having the same scope as the service itself).</p>
+<p>I added the circuit breaker to the order service:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span> <span class="nf">OrderService</span><span class="p">(</span><span class="n">IOrderApi</span> <span class="n">orderApi</span><span class="p">,</span> <span class="n">IQueueService</span> <span class="n">queueService</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">_orderApi</span> <span class="p">=</span> <span class="n">orderApi</span><span class="p">;</span>
+    <span class="n">_queueService</span> <span class="p">=</span> <span class="n">queueService</span><span class="p">;</span>
+
+    <span class="n">_circuitBreaker</span> <span class="p">=</span> <span class="n">Policy</span>
+        <span class="p">.</span><span class="n">Handle</span><span class="p">&lt;</span><span class="n">Exception</span><span class="p">&gt;()</span>
+        <span class="p">.</span><span class="n">CircuitBreakerAsync</span><span class="p">(</span><span class="n">EXCEPTIONS_ALLOWED_BEFORE_BREAKING_CIRCUIT</span><span class="p">,</span><span class="n">TimeSpan</span><span class="p">.</span><span class="n">FromMilliseconds</span><span class="p">(</span><span class="m">5000</span><span class="p">));</span>                    
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">async</span> <span class="n">Task</span> <span class="nf">SaveOrder</span><span class="p">(</span><span class="n">Order</span> <span class="n">order</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">retryPolicy</span> <span class="p">=</span> <span class="n">Policy</span>
+        <span class="p">.</span><span class="n">Handle</span><span class="p">&lt;</span><span class="n">ApiException</span><span class="p">&gt;(</span><span class="n">ex</span> <span class="p">=&gt;</span> <span class="n">ex</span><span class="p">.</span><span class="n">StatusCode</span> <span class="p">==</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">RequestTimeout</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">RetryAsync</span><span class="p">(</span><span class="n">NUMBER_OF_RETRIES</span><span class="p">,</span> <span class="k">async</span> <span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="n">retryCount</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="k">await</span> <span class="n">Task</span><span class="p">.</span><span class="n">Delay</span><span class="p">(</span><span class="m">500</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">));</span>
+
+    <span class="kt">var</span> <span class="n">fallbackPolicy</span> <span class="p">=</span> <span class="n">Policy</span>
+        <span class="p">.</span><span class="n">Handle</span><span class="p">&lt;</span><span class="n">Exception</span><span class="p">&gt;()</span>
+        <span class="p">.</span><span class="n">FallbackAsync</span><span class="p">(</span><span class="k">async</span> <span class="p">(</span><span class="n">cancellationToken</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="k">await</span> <span class="n">SaveOrderInQueue</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">));</span>
+
+    <span class="k">await</span> <span class="n">fallbackPolicy</span>
+        <span class="p">.</span><span class="n">WrapAsync</span><span class="p">(</span><span class="n">retryPolicy</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">WrapAsync</span><span class="p">(</span><span class="n">_circuitBreaker</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">ExecuteAsync</span><span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="k">await</span> <span class="n">_orderApi</span><span class="p">.</span><span class="n">SaveOrder</span><span class="p">(</span><span class="n">order</span><span class="p">).</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">))</span>
+        <span class="p">.</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>All unit tests will still succeed because the circuit breaker will only break after 10 exceptions. Let’s try and create a unit test to test the behavior of the circuit breaker.</p>
+<p>After adding some logging to the service and creating the unit test I got this log result:</p>
+<p><span class="xref myst"><img alt="Logging output" src="../../../../_images/testlog.png" /></span></p>
+<p>The unit test is a bit “funny”. Since there is a time element (during which the circuit breaker breaks), the number of retries can vary. I guess I should be able to create an exact test but for demonstration purposes this will serve its purpose.</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="na">[Fact]</span>
+<span class="k">public</span> <span class="k">async</span> <span class="n">Task</span> <span class="nf">BreakAfter10Tries</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">mockOrderApi</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Mock</span><span class="p">&lt;</span><span class="n">IOrderApi</span><span class="p">&gt;(</span><span class="n">MockBehavior</span><span class="p">.</span><span class="n">Strict</span><span class="p">);</span>
+    <span class="n">mockOrderApi</span><span class="p">.</span><span class="n">Setup</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">SaveOrder</span><span class="p">(</span><span class="n">It</span><span class="p">.</span><span class="n">IsAny</span><span class="p">&lt;</span><span class="n">Order</span><span class="p">&gt;()))</span>
+        <span class="p">.</span><span class="n">Throws</span><span class="p">(</span><span class="n">TestHelper</span><span class="p">.</span><span class="n">CreateRefitException</span><span class="p">(</span><span class="n">HttpMethod</span><span class="p">.</span><span class="n">Post</span><span class="p">,</span> <span class="n">HttpStatusCode</span><span class="p">.</span><span class="n">RequestTimeout</span><span class="p">));</span>
+
+    <span class="kt">var</span> <span class="n">orderService</span> <span class="p">=</span> <span class="k">new</span> <span class="n">OrderService</span><span class="p">(</span><span class="n">mockOrderApi</span><span class="p">.</span><span class="n">Object</span><span class="p">,</span> <span class="n">_mockQueueService</span><span class="p">.</span><span class="n">Object</span><span class="p">,</span> <span class="n">_testLogger</span><span class="p">);</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;=</span> <span class="m">10</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+        <span class="k">await</span> <span class="n">orderService</span><span class="p">.</span><span class="n">SaveOrder</span><span class="p">(</span><span class="n">TestHelper</span><span class="p">.</span><span class="n">CreateFakeOrder</span><span class="p">(</span><span class="m">3</span><span class="p">)).</span><span class="n">ConfigureAwait</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+
+    <span class="n">mockOrderApi</span><span class="p">.</span><span class="n">Verify</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">SaveOrder</span><span class="p">(</span><span class="n">It</span><span class="p">.</span><span class="n">IsAny</span><span class="p">&lt;</span><span class="n">Order</span><span class="p">&gt;()),</span> <span class="n">Times</span><span class="p">.</span><span class="n">AtLeast</span><span class="p">(</span><span class="m">10</span><span class="p">));</span>
+    <span class="n">_mockQueueService</span><span class="p">.</span><span class="n">Verify</span><span class="p">(</span><span class="n">x</span> <span class="p">=&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">SaveOrder</span><span class="p">(</span><span class="n">It</span><span class="p">.</span><span class="n">IsAny</span><span class="p">&lt;</span><span class="n">Order</span><span class="p">&gt;()),</span> <span class="n">Times</span><span class="p">.</span><span class="n">AtLeast</span><span class="p">(</span><span class="m">10</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>I hope you did learn something here. Please tell me if you have started using <a class="reference external" href="https://github.com/App-vNext/Polly">Polly</a>. Also, tell me if you happen to know alternative libraries, I would very much like that!</p>
+</div>
+<div class="section" id="links">
+<h2>Links</h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/jacobduijzer/PollyRefitBlogCode">Sample project</a></p></li>
+<li><p>I gave a Polly / Refit training at work, <a class="reference external" href="https://github.com/jacobduijzer/RefitPollyWorkshop">here</a> is the Github repository I used.</p></li>
+<li><p><a class="reference external" href="https://github.com/App-vNext/Polly">Polly</a></p></li>
+<li><p><a class="reference external" href="https://github.com/reactiveui/refit">Refit</a>, cool REST library</p></li>
+<li><p><a class="reference external" href="https://github.com/moq/moq4">Moq</a>, mocking framework</p></li>
+<li><p><a class="reference external" href="https://fluentassertions.com">FluentAssertions</a>, assertions made fluent</p></li>
+</ul>
+</div>
+</div>
+
+<div class="section">
+     
+<div class="section">
+  <span style="float: left">
+     
+    <a href="../things-i-learned-this-week-1/index.html">
+      <i class="fa fa-arrow-circle-left"></i> Things I Learned This Week - #1
+    </a>
+    
+  </span>
+  <span>&nbsp;</span>
+  <span style="float: right">
+     
+    <a href="../arrowhead-antipattern-challenge/index.html">
+      Arrowhead anti-pattern challenge <i
+        class="fa fa-arrow-circle-right"
+      ></i
+      >
+    </a>
+    
+  </span>
+</div>
+  
+  <div class="section">
+    <h2>Comments</h2>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+      var disqus_shortname = "blog-duijzer-com";
+      var disqus_identifier = "/content/articles/2019/polly-refit/";
+      var disqus_title = "Retry and fallback policies in C# with Polly";
+      var disqus_url = "https://duijzer.com/content/articles/2019/polly-refit/";
+
+      (function () {
+        var dsq = document.createElement("script");
+        dsq.type = "text/javascript";
+        dsq.async = true;
+        dsq.src = "//" + disqus_shortname + ".disqus.com/embed.js";
+        (
+          document.getElementsByTagName("head")[0] ||
+          document.getElementsByTagName("body")[0]
+        ).appendChild(dsq);
+      })();
+    </script>
+    <noscript
+      >Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript"
+        >comments powered by Disqus.</a
+      ></noscript
+    >
+    <a href="https://disqus.com" class="dsq-brlink"
+      >comments powered by <span class="logo-disqus">Disqus</span></a
+    >
+  </div>
+  
+</div>
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2021, Jacob Duijzer.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>
