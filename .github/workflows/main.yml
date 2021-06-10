@@ -5,6 +5,8 @@ jobs:
     name: Push Sphinx Pages
     runs-on: ubuntu-latest
     steps:
+      - name: List
+        run: ls -lsa
       - name: Build HTML
         run: ./docker-build.sh
       #    - uses: seanzhengw/sphinx-pages@master
