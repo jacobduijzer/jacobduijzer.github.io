@@ -534,6 +534,33 @@ Social Networks
 <h1>Testing with eventual consistency</h1>
 <p><em><a class="reference external" href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;cad=rja&amp;uact=8&amp;ved=2ahUKEwixw9mBnurwAhWIB2MBHSIlCpAQFjAHegQIBhAD&amp;url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FEventual_consistency&amp;usg=AOvVaw0DHqhPsspV7JLvL38t1Wjs">Eventual consistency</a> is a consistency model used in distributed computing to achieve high availability that informally guarantees that, if no new updates are made to a given data item, eventually all accesses to that item will return the last updated value</em> (<a class="reference external" href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;cad=rja&amp;uact=8&amp;ved=2ahUKEwixw9mBnurwAhWIB2MBHSIlCpAQFjAHegQIBhAD&amp;url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FEventual_consistency&amp;usg=AOvVaw0DHqhPsspV7JLvL38t1Wjs">Wikipedia</a>).</p>
 <p>So, lets create a system with some microservices. The <a class="reference external" href="https://c4model.com/">Container Diagram</a> looks like this:</p>
+<p class="plantuml">
+<object data="../../../../_images/plantuml-100d8aeb2df6648e0d040bdeab30eddeaf633d80.svg" type="image/svg+xml" style="width:591px;height:823px;">
+<img src="../../../../_images/plantuml-100d8aeb2df6648e0d040bdeab30eddeaf633d80.png" alt="    &#64;startuml
+
+    !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+    title Container Diagram
+
+    Person(person, &quot;User&quot;)
+
+    System_Boundary(system, &quot;Order System&quot;) {
+        Container(api, &quot;Order Api&quot;, &quot;.NET 5 Api&quot;, &quot;Queues incoming orders for processing&quot;)
+        Container(queue, &quot;Queue&quot;, &quot;RabbitMq&quot;, &quot;Queue for infoming order events&quot;)
+        Container(worker, &quot;Worker&quot;, &quot;.NET 5 Worker&quot;, &quot;Processes orders, stores orders in database&quot;)
+        ContainerDb(database, &quot;Database&quot;, &quot;PostgreSQL&quot;, &quot;Stores processed orders&quot;)
+    }
+
+    person &lt;-down-&gt; api: Sends unprocessed orders\nRequests processed orders
+    api -down-&gt; queue: Unprocessed orders
+    queue -down-&gt; worker: Subscription on new order events 
+    worker -&gt; database: Processed orders
+    database -up-&gt; api: Processed orders
+
+    &#64;enduml
+"/>
+
+</object></p>
 <p>It is a simple API with a bunch of REST endpoints so we are able to create orders and retrieve processed orders. When orders are posted, they will be queued and processed by a worker, the worker has an artificial delay of 5 seconds so it acts like a long running process. When we want to create an automated test we could write a specification like this:</p>
 <div class="highlight-gherkin notranslate"><div class="highlight"><pre><span></span><span class="k">Feature:</span><span class="nf"> Processing New Orders</span>
 <span class="nf">  As an order entry clerk</span>
