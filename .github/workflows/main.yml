@@ -5,10 +5,7 @@ jobs:
     name: Push Sphinx Pages
     runs-on: ubuntu-latest
     steps:
-      - name: get current dir
-        run: pwd
-      - name: List
-        run: ls -lsa
+      - uses: actions/checkout@v2      
       - name: Build HTML
         run: ./docker-build.sh
       #    - uses: seanzhengw/sphinx-pages@master
