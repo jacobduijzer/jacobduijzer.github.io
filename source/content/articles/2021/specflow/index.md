@@ -2,7 +2,8 @@
 author: Jacob Duijzer
 date: 2021-05-30
 tags: specflow, behaviour driven development, bdd, gherkin, polly
-categories: Testing, SpecFlow
+category: Testing
+categories: Testing
 redirect: posts/specflow-eventual-consistency/index 
 image: 0
 excerpt: 1
@@ -10,7 +11,7 @@ excerpt: 1
 
 # Specflow and Eventual Consistency
 
-[SpecFlow](https://specflow.org/) is a tool which can be used to describe test scenarios and automate the tests. Although I have been using SpecFlow for a while now I never used it for advanced examples where time might be an issue. Lets show a simple example scenario first. A scenario, written in [Gherkin](https://cucumber.io/docs/gherkin/reference/), looks like this:
+{term}`SpecFlow` is a tool which can be used to describe test scenarios and automate the tests. Although I have been using SpecFlow for a while now I never used it for advanced examples where time might be an issue. Lets show a simple example scenario first. A scenario, written in {term}`Gherkin` looks like this:
 
 ```gherkin
 Scenario: Add simple item with due date
@@ -29,7 +30,7 @@ This scenario is easy to implement, the item will be added and stored. That's it
 
 So, lets create a system with some microservices. The [Container Diagram](https://c4model.com/) looks like this:
 
-``` {include} ./container-diagram.pu
+```{include} ./container-diagram.pu
 
 ```
 

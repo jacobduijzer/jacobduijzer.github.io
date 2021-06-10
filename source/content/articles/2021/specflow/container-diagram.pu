@@ -1,6 +1,6 @@
 ``` {uml}
 
-@startuml
+    @startuml
 
     !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
@@ -21,6 +21,6 @@
     worker -> database: Processed orders
     database -up-> api: Processed orders
 
-@enduml
+    @enduml
 
 ```

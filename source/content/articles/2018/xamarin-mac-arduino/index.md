@@ -2,7 +2,7 @@
 author: Jacob Duijzer
 date: 2018-09-03
 tags: Xamarin, Xamarin.Mac, Arduino, Plugin
-categories: Xamarin,Arduino,Xamarin.Mac
+category: Xamarin
 redirect: posts/xamarin-mac-arduino/index 
 ---
 
